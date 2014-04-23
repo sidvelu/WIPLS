@@ -28,10 +28,14 @@ def align():
 
     diff = abs(currHeading - heading)
     print "Heading: " + str(heading)
+    panTilt.stop()
+    raw_input("press key to continue")
     panTilt.right()
+    time.sleep(13)
+    '''
     while (diff <= 90):
         panTilt.stop()
-        time.sleep(5)
+        time.sleep(2)
         currHeading = getHeading()
         diff = abs(currHeading - heading)
         panTilt.right()
@@ -42,11 +46,13 @@ def align():
     panTilt.stop()
     print "End Heading: ", currHeading
     print "Moved 90 degrees going left"
+    '''
+    panTilt.stop()
 
 def getHeading():
     sum = 0
     for x in range(0,10):
-        sum += compass.getHeading()
+        sum += compass.getHeading(False)
     avgHeading = sum / 10
     return avgHeading
 
@@ -62,18 +68,19 @@ folderName = raw_input("Enter Test Name")
 os.system("mkdir Data_" + folderName)
 
 #Getting Heading
-startHeading = compass.getHeading()
+startHeading = getHeading()
 print "Start Heading: " + str(startHeading)
 
-while (abs(startHeading - compass.getHeading()) <= 180):
-    currHeading = compass.getHeading()
-    while (abs(compass.getHeading() - currHeading) <= 10):
-        panTilt.right()
+while (abs(startHeading - getHeading()) <= 180):
+    currHeading = getHeading()
+    while (abs(getHeading() - currHeading) <= 10):
+        panTilt.left()
+        time.sleep(.2)
     panTilt.stop()
     execfile("GNU_v3.py")
-    #rename signal files
-    print "Heading Change: " + str(abs(compass.getHeading() - currHeading))
-    os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(heading)) + ".bin")
+   #rename signal files
+    print "Heading Change: " + str(abs(getHeading() - currHeading))
+    os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(currHeading)) + ".bin")
     print("Finished one heading")
     answer = raw_input("Press Enter to Continue")
     #answer = raw_input("Press Enter to Continue, or Q to quit")
