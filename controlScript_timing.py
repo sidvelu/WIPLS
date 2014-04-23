@@ -11,6 +11,7 @@ from gnuradio.eng_option import eng_option
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import baz
+import serial
 
 from LSM303 import LSM303
 from GPS import GPS
@@ -36,8 +37,8 @@ GPS = GPS()
 panTilt = PanTilt()
 
 # CONSTANTS TO BE SETUP
-#RATE = 6.9231 # degrees per second
-RATE = 6.8
+#RATE = 6.9231 # degrees per second 
+RATE = 6.8 
 #DATAPOINTS = 10.0
 #DEGREES = 180.0
 
@@ -65,6 +66,13 @@ except ValueError:
 #startHeading = getHeading()
 #print "Start Heading: " + str(startHeading)
 
+o_heading = open("heading.txt", "w")
+heading  = GPS.getCoordinates()
+o_heading.write(str(heading) + "\n")
+o_heading.close()
+os.system("mv heading.txt Data_" + folderName + "/heading.txt")
+
+
 counter = 0
 SLEEP_TIME = (degrees / datapoints) / RATE
 print str(SLEEP_TIME)
@@ -77,7 +85,7 @@ while counter < datapoints:
         
     time.sleep(SLEEP_TIME)
     panTilt.stop()
-    #execfile("GNU_v3.py")
+    execfile("GNU_v3.py")
     if(direction == 'l'):
         currHeading -= SLEEP_TIME * RATE
     elif(direction == 'r'):
@@ -88,7 +96,7 @@ while counter < datapoints:
     if currHeading > 0:
         currHeading %= 360
     print "currHeading: ", currHeading
-   #rename signal files
+    #rename signal files
     os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(currHeading)) + ".bin")
     print("Finished one heading")
     #answer = raw_input("Press Enter to Continue")
