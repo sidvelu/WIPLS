@@ -18,7 +18,7 @@ from optparse import OptionParser
 from LSM303 import LSM303
 import baz
 from GPS import GPS
-from panTilt import panTilt
+from PanTilt import PanTilt
 
 
 def align():
@@ -34,7 +34,7 @@ def align():
 #Setting up compass, GPS, and panTilt
 compass = LSM303()
 GPS = GPS()
-panTilt = panTilt()
+panTilt = PanTilt()
 
 align()
 
