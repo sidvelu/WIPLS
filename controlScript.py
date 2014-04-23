@@ -63,28 +63,21 @@ panTilt = PanTilt()
 
 align()
 
+panTilt.stop()
 #Folder Setup
 folderName = raw_input("Enter Test Name")
 os.system("mkdir Data_" + folderName)
+
 
 #Getting Heading
 startHeading = getHeading()
 print "Start Heading: " + str(startHeading)
 
-while (abs(startHeading - getHeading()) <= 180):
+while (abs(startHeading - getHeading()) <= 90):
     currHeading = getHeading()
-    while (abs(getHeading() - currHeading) <= 10):
-        panTilt.left()
-        time.sleep(.2)
-    panTilt.stop()
-    execfile("GNU_v3.py")
-   #rename signal files
+    panTilt.left()
     print "Heading Change: " + str(abs(getHeading() - currHeading))
-    os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(currHeading)) + ".bin")
-    print("Finished one heading")
-    answer = raw_input("Press Enter to Continue")
-    #answer = raw_input("Press Enter to Continue, or Q to quit")
-    #if answer == 'q' or answer == 'Q':
-    #    break
-align()
 
+panTilt.stop()
+
+align()
