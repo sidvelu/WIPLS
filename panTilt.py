@@ -10,47 +10,45 @@ rightPin = "P8_45"
 
 
 class panTilt:
-
     def __init__(self):
-        #Setting up GPIO pins for left,right,up,down
-		
-		GPIO.setup(upPin, GPIO.OUT)
-		GPIO.setup(downPin, GPIO.OUT)
-		GPIO.setup(leftPin, GPIO.OUT)
-		GPIO.setup(rightPin, GPIO.OUT)
+        #Setting up GPIO pins for left,right,up,down	
+        GPIO.setup(upPin, GPIO.OUT)
+        GPIO.setup(downPin, GPIO.OUT)
+        GPIO.setup(leftPin, GPIO.OUT)
+        GPIO.setup(rightPin, GPIO.OUT)
 
     #Toggling relays for pan and tilt
-	def left(self):
-		GIPO.output(leftPin,GPIO.HIGH)
-		GIPO.output(rightPin,GPIO.LOW)
-		GIPO.output(upPin,GPIO.LOW)
-		GIPO.output(downPin,GPIO.LOW)
-		print ("Panning Left")
+    def left(self):
+        GPIO.output(leftPin,GPIO.HIGH)
+        GPIO.output(rightPin,GPIO.LOW)
+        GPIO.output(upPin,GPIO.LOW)
+        GPIO.output(downPin,GPIO.LOW)
+        print ("Panning Left")
 		
-	def right(self):
-		GIPO.output(leftPin,GPIO.LOW)
-		GIPO.output(rightPin,GPIO.HIGH)
-		GIPO.output(upPin,GPIO.LOW)
-		GIPO.output(downPin,GPIO.LOW)
-		print ("Panning Right")
+    def right(self):
+        GPIO.output(leftPin,GPIO.LOW)
+        GPIO.output(rightPin,GPIO.HIGH)
+        GPIO.output(upPin,GPIO.LOW)
+        GPIO.output(downPin,GPIO.LOW)
+        print ("Panning Right")
 		
-	def up(self):
-		GIPO.output(leftPin,GPIO.LOW)
-		GIPO.output(rightPin,GPIO.LOW)
-		GIPO.output(upPin,GPIO.HIGH)
-		GIPO.output(downPin,GPIO.LOW)
-		print ("Tilting Up")
+    def up(self):
+        GPIO.output(leftPin,GPIO.LOW)
+        GPIO.output(rightPin,GPIO.LOW)
+        GPIO.output(upPin,GPIO.HIGH)
+        GPIO.output(downPin,GPIO.LOW)
+        print ("Tilting Up")
 		
-	def down(self):
-		GIPO.output(leftPin,GPIO.LOW)
-		GIPO.output(rightPin,GPIO.LOW)
-		GIPO.output(upPin,GPIO.LOW)
-		GIPO.output(downPin,GPIO.HIGH)
-		print ("Tilting Down")
+    def down(self):
+        GPIO.output(leftPin,GPIO.LOW)
+        GPIO.output(rightPin,GPIO.LOW)
+        GPIO.output(upPin,GPIO.LOW)
+        GPIO.output(downPin,GPIO.HIGH)
+        print ("Tilting Down")
 		
-	def stop(self):
-		GIPO.output(leftPin,GPIO.LOW)
-		GIPO.output(rightPin,GPIO.LOW)
-		GIPO.output(upPin,GPIO.LOW)
-		GIPO.output(downPin,GPIO.LOW)
-		print ("Motion Stop")
+    def stop(self):
+        GPIO.output(leftPin,GPIO.LOW)
+        GPIO.output(rightPin,GPIO.LOW)
+        GPIO.output(upPin,GPIO.LOW)
+        GPIO.output(downPin,GPIO.LOW)
+        print ("Motion Stop")

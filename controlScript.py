@@ -17,14 +17,17 @@ from gnuradio.filter import firdes
 from optparse import OptionParser
 from LSM303 import LSM303
 import baz
+from GPS import GPS
+from panTilt import panTilt
 
 
 def align():
     #Getting Heading
     heading = compass.getHeading()
     print "Heading: " + str(heading)
-    while (abs(heading - compass.getHeading()) <= 90:
-        panTilt.left()
+    panTilt.left()
+    while (abs(heading - compass.getHeading()) <= 90):
+        continue
     panTilt.stop()
     print "Moved 90 degrees going left"
 
@@ -48,7 +51,7 @@ while (abs(startHeading - compass.getHeading()) <= 180):
     while (abs(compass.getHeading() - currHeading) <= 10):
         panTilt.right()
     panTilt.stop()
-    execfile("GNU_v2.py")
+    execfile("GNU_v3.py")
     #rename signal files
     print "Heading Change: " + str(abs(compass.getHeading() - currHeading))
     os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(heading)) + ".bin")

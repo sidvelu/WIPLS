@@ -15,9 +15,15 @@ Zmax = 0
 Zmin = 0
 
 while True:
-	print "Heading :" + str(compass.getHeading())
+	sum = 0
+	for x in range(0,6):
+		sum += compass.getHeading()
+		time.sleep(.01)
+	avg = sum / 6
+	#print "Heading :" + str(compass.getHeading())
+	print "Average heading:", avg
 	print ""
-	time.sleep(.1)
+#	time.sleep(.1)
 
 
 	
