@@ -24,9 +24,18 @@ while True:
     avg = sum / 10
     avgOffset = sumOffset / 10
     #print "Heading :" + str(compass.getHeading())
-    print "Average heading:", avg
-    print "Average offset heading:", avgOffset
-    print "Pitch is: ", compass.getPitch()
+    #print "Average heading:", avg
+    #print "Average offset heading:", avgOffset
+
+    sum = 0
+    for x in range(0, 100):
+        sum += compass.getPitch()
+        time.sleep(.01)
+    avg = sum / 100
+    print "Pitch is: ", avg
+    #print "Accl X: " , compass.readAcclX()
+    #print "Accl Y: " , compass.readAcclY()
+    #print "Accl Z: " , compass.readAcclZ()
     print ""
     time.sleep(1)
 

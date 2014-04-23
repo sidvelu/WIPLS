@@ -46,21 +46,21 @@ class LSM303:
         hi = self.MAG.readS8(register)
         time.sleep(.0001)
         lo = self.MAG.readU8(register + 1)
-        return (hi << 8) + lo - self.xoffset
+        return (hi << 8) + lo
 
     def magReadY(self):
         register = 0x07
         hi = self.MAG.readS8(register)
         time.sleep(.0001)
         lo = self.MAG.readU8(register + 1)
-        return  (hi << 8) + lo - self.yoffset
+        return  (hi << 8) + lo
 
     def magReadZ(self):
         register = 0x05
         hi = self.MAG.readS8(register)
         time.sleep(.0001)
         lo = self.MAG.readU8(register + 1)
-        return  (hi << 8) + lo - self.zoffset
+        return  (hi << 8) + lo
 
 
     def readAcclX(self):
@@ -106,8 +106,14 @@ class LSM303:
         acclY = self.readAcclY()
         acclZ = self.readAcclZ()
 
-        normX = math.atan( acclX /   math.sqrt(acclX * acclX + acclY * acclY +  acclZ * acclZ) )
-        pitch = math.asin(-normX)
+        normY = math.atan( acclY /   math.sqrt(acclX * acclX + acclY * acclY +  acclZ * acclZ) )
+        pitch = math.asin(-normY)
+        #pitch = math.atan( acclZ /   math.sqrt(acclX * acclX + acclY * acclY +  acclZ * acclZ) )
+
+        #pitch = math.atan(acclX / (math.sqrt(acclY * acclY + acclZ * acclZ)))
+        #pitch = math.degrees(pitch)
+
+        pitch = -math.degrees(pitch)
         return pitch
         
 

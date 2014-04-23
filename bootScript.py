@@ -60,7 +60,9 @@ while True:
             except:
                 m = magProcess()
                 m.start()
-        elif response == 'control':
+        elif 'Control' in response:
+            params = response.split(',')
+            sys.argv = [params[1], params[2]]
             try:
                 c.start()
             except:
