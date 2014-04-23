@@ -1,0 +1,24 @@
+SHILLMAN
+true heading towards phone: 160 
+start heading for test1: 60
+start heading for test2: 240
+N  42d 20’ 15.445’’
+W 071d 05’ 23.135’’
+
+BEHRAKIS
+true heading towards phone: 103
+start heading for test1: 20
+start heading for test2: 290
+N 42d 20’ 13.000’’
+W 071d 05’ 29.315’’
+
+EGAN
+true heading towards phone: 280
+start heading for test1: 180
+start heading for test2: 1
+N 42d 20’ 15.349’’
+W 071d 05’ 21.735’’ 
+
+PHONE COORDS
+N 42d 20’ 09.911’’
+W 071d 05’ 24.014’’
