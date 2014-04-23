@@ -23,14 +23,32 @@ from PanTilt import PanTilt
 
 def align():
     #Getting Heading
-    heading = compass.getHeading()
+    heading = getHeading()
+    currHeading = getHeading()
+
+    diff = abs(currHeading - heading)
     print "Heading: " + str(heading)
-    panTilt.left()
-    while (abs(heading - compass.getHeading()) <= 90):
-        print "loop"
-        continue
+    panTilt.right()
+    while (diff <= 90):
+        panTilt.stop()
+        time.sleep(5)
+        currHeading = getHeading()
+        diff = abs(currHeading - heading)
+        panTilt.right()
+        time.sleep(1)
+        print ","
+        print diff
+        print ",",
     panTilt.stop()
+    print "End Heading: ", currHeading
     print "Moved 90 degrees going left"
+
+def getHeading():
+    sum = 0
+    for x in range(0,10):
+        sum += compass.getHeading()
+    avgHeading = sum / 10
+    return avgHeading
 
 #Setting up compass, GPS, and panTilt
 compass = LSM303()
