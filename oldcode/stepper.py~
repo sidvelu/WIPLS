@@ -1,0 +1,24 @@
+import Adafruit_BBIO.GPIO as GPIO
+import time
+
+
+clk = "P8_26"
+direction = "P8_13"
+
+
+GPIO.setup(clk, GPIO.OUT)
+GPIO.setup(direction, GPIO.OUT)
+
+GPIO.output(direction, GPIO.HIGH)
+
+
+while(True):
+	#GPIO.output(direction, GPIO.HIGH)
+	print "clk low "
+	GPIO.output(clk, GPIO.LOW)
+	time.sleep(.05)
+	print "clk high "
+	#GPIO.output(direction, GPIO.LOW)
+	GPIO.output(clk, GPIO.HIGH)
+	time.sleep(.01)
+	

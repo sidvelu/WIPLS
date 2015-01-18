@@ -1,0 +1,7 @@
+Xmax :269
+Xmin :-214
+Ymax :175
+Ymin :173
+Zmax :-179
+Zmin :-438
+

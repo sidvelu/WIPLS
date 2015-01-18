@@ -1,0 +1,14 @@
+1st location:
+303 - real angle (Nick)
+339 - real angle (Sid)
+
+267 - mag angle 1 - c
+259 - mag angle 2 - cc
+263 - mag angle 3 - c
+
+
+2nd location:
+265 - real angle (Nick + Sid)
+
+232 - mag angle 4 - cc
+232 - mag angle 5 - c
