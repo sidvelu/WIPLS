@@ -20,35 +20,35 @@ class panTilt:
 		GPIO.setup(rightPin, GPIO.OUT)
 
     #Toggling relays for pan and tilt
-	def left(self)
+	def left(self):
 		GIPO.output(leftPin,GPIO.HIGH)
 		GIPO.output(rightPin,GPIO.LOW)
 		GIPO.output(upPin,GPIO.LOW)
 		GIPO.output(downPin,GPIO.LOW)
 		print ("Panning Left")
 		
-	def right(self)
+	def right(self):
 		GIPO.output(leftPin,GPIO.LOW)
 		GIPO.output(rightPin,GPIO.HIGH)
 		GIPO.output(upPin,GPIO.LOW)
 		GIPO.output(downPin,GPIO.LOW)
 		print ("Panning Right")
 		
-	def up(self)
+	def up(self):
 		GIPO.output(leftPin,GPIO.LOW)
 		GIPO.output(rightPin,GPIO.LOW)
 		GIPO.output(upPin,GPIO.HIGH)
 		GIPO.output(downPin,GPIO.LOW)
 		print ("Tilting Up")
 		
-	def down(self)
+	def down(self):
 		GIPO.output(leftPin,GPIO.LOW)
 		GIPO.output(rightPin,GPIO.LOW)
 		GIPO.output(upPin,GPIO.LOW)
 		GIPO.output(downPin,GPIO.HIGH)
 		print ("Tilting Down")
 		
-	def stop(self)
+	def stop(self):
 		GIPO.output(leftPin,GPIO.LOW)
 		GIPO.output(rightPin,GPIO.LOW)
 		GIPO.output(upPin,GPIO.LOW)
