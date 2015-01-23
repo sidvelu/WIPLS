@@ -17,9 +17,10 @@ class GPS:
         if ser.isOpen():
             print "Serial is open!"
 
-    def getHeading(self):
+    def getCoordinates(self):
         fix = False
         start = dt.datetime.now()
+        end = dt.datetime.now()
         while (fix == False and (end-start).microseconds < 1000):
             line = ser.readline()
             if "$GPGGA" in line:
@@ -34,6 +35,9 @@ class GPS:
                 print longitude_num + longitude_dir
                 if latitude_num != "" and latitude_dir != "":
                     fix = True
+                else:
+                    return (latitude_num + latitude_dir, longitude_num + longitude_dir)
             end = dt.datetime.now()
-        if(fix == False)
+        if(fix == False):
             print "Fix Not Available"
+

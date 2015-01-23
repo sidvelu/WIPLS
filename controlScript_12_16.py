@@ -19,12 +19,13 @@ from LSM303 import LSM303
 import baz
 
 
-def init():
+def align():
     #Getting Heading
     heading = compass.getHeading()
     print "Heading: " + str(heading)
     while (abs(heading - compass.getHeading()) <= 90:
         panTilt.left()
+    panTilt.stop()
     print "Moved 90 degrees going left"
 
 #Setting up compass, GPS, and panTilt
@@ -32,28 +33,29 @@ compass = LSM303()
 GPS = GPS()
 panTilt = panTilt()
 
-init()
+align()
 
-while True:
-    #Getting Heading
-    heading = compass.getHeading()
-    print "Heading: " + str(heading)
+#Folder Setup
+folderName = raw_input("Enter Test Name")
+os.system("mkdir Data_" + folderName)
 
-    while (abs(heading - compass.getHeading()) <= 180):
-        x = compass.getHeading()
-        while (abs(compass.getHeading() - x) < 10):
-            panTilt.right()
+#Getting Heading
+startHeading = compass.getHeading()
+print "Start Heading: " + str(startHeading)
 
-        execfile("GNU_v2.py")
-        #rename signal files
-        os.system("mv signal.bin signal_"+ str(round(heading))+ ".bin")
-        os.system("mv passband_sig.bin passband_signal_"+ str(round(heading)) + ".bin")
-
-    
+while (abs(startHeading - compass.getHeading()) <= 180):
+    currHeading = compass.getHeading()
+    while (abs(compass.getHeading() - currHeading) <= 10):
+        panTilt.right()
+    panTilt.stop()
+    execfile("GNU_v2.py")
+    #rename signal files
+    print "Heading Change: " + str(abs(compass.getHeading() - currHeading))
+    os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(heading)) + ".bin")
     print("Finished one heading")
-    answer = raw_input("Press Enter to Continue, or Q to quit")
-    if answer == 'q' or answer == 'Q':
-        break
-
-init()
+    answer = raw_input("Press Enter to Continue")
+    #answer = raw_input("Press Enter to Continue, or Q to quit")
+    #if answer == 'q' or answer == 'Q':
+    #    break
+align()
 
