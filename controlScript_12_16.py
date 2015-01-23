@@ -1,7 +1,5 @@
 import time
 import os
-from multiprocessing import Process
-import signal
 import sys
 
 # load all GNUradio modules here, so we load only once
@@ -20,37 +18,42 @@ from optparse import OptionParser
 from LSM303 import LSM303
 import baz
 
-# create process class to control signal script
-class myProcess(Process):
-    def __init__(self):
-        Process.__init__(self)
 
-    def run(self):
-        execfile("GNU_v2.py")
+def init():
+    #Getting Heading
+    heading = compass.getHeading()
+    print "Heading: " + str(heading)
+    while (abs(heading - compass.getHeading()) <= 90:
+        panTilt.left()
+    print "Moved 90 degrees going left"
 
-#Setting up compass
+#Setting up compass, GPS, and panTilt
 compass = LSM303()
+GPS = GPS()
+panTilt = panTilt()
+
+init()
 
 while True:
     #Getting Heading
-    heading = compass.getHeading() 
+    heading = compass.getHeading()
     print "Heading: " + str(heading)
 
-    # get signal data by creating another process
-    p = myProcess()
-    p.start()
-    #time.sleep(3)
-    #os.kill(p.pid, signal.SIGTERM) # kill process after certain amount of time
-    p.join()  # wait till process is definitely killed
+    while (abs(heading - compass.getHeading()) <= 180):
+        x = compass.getHeading()
+        while (abs(compass.getHeading() - x) < 10):
+            panTilt.right()
 
-    #rename signal files
-    os.system("mv signal.bin signal_"+ str(round(heading))+ ".bin")
-    os.system("mv passband_sig.bin passband_signal_"+ str(round(heading)) + ".bin")
-    
-    # run the stepper
-    #execfile("runMotor.py")
+        execfile("GNU_v2.py")
+        #rename signal files
+        os.system("mv signal.bin signal_"+ str(round(heading))+ ".bin")
+        os.system("mv passband_sig.bin passband_signal_"+ str(round(heading)) + ".bin")
 
     
     print("Finished one heading")
-    raw_input("Press Enter to Continue")
+    answer = raw_input("Press Enter to Continue, or Q to quit")
+    if answer == 'q' or answer == 'Q':
+        break
+
+init()
 
