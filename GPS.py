@@ -36,7 +36,9 @@ class GPS:
                 if latitude_num != "" and latitude_dir != "":
                     fix = True
                 else:
-                    return (latitude_num + latitude_dir, longitude_num + longitude_dir)
+                    retLatitude = int(latitude_num[0:2]) + (float(latitude_num[2:9]) / 60 );
+                    retLongitude = int(longitude_num[0:3]) + (float(longitude_num[3:10]) / 60 );
+                    return (retLatitude, latitude_dir,  retLongitude, longitude_dir)
             end = dt.datetime.now()
         if(fix == False):
             print "Fix Not Available"
