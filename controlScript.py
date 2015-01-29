@@ -1,7 +1,5 @@
 import time
 import os
-from multiprocessing import Process
-import signal
 import sys
 
 # load all GNUradio modules here, so we load only once
@@ -17,41 +15,47 @@ from gnuradio.eng_option import eng_option
 from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
+from LSM303 import LSM303
 import baz
 
-# create process class to control signal script
-class myProcess(Process):
-    def __init__(self):
-        Process.__init__(self)
 
-    def run(self):
-        execfile("runSignal.py")
+def align():
+    #Getting Heading
+    heading = compass.getHeading()
+    print "Heading: " + str(heading)
+    while (abs(heading - compass.getHeading()) <= 90:
+        panTilt.left()
+    panTilt.stop()
+    print "Moved 90 degrees going left"
 
-while True:
-    # determine heading mode
-    if not len(sys.argv) > 1:  # no args, skip heading
-        #raw_input("\n\nSkipping heading, press Enter to continue...")
-        print("\n\nSkipping heading, continuing...")
-    elif sys.argv[1] == "0":  # manual heading
-        angle = input('\n\nEnter manual heading: ')
-        f = open('magData.txt', 'w')
-        f.write(str(angle))
-        f.close()
-    elif sys.argv[1] == "1":  # take heading samples
-        #raw_input("\n\nReady to take heading samples, press Enter to continue...")
-        print("\n\nTaking samples...")
-        execfile("runHeading.py")
+#Setting up compass, GPS, and panTilt
+compass = LSM303()
+GPS = GPS()
+panTilt = panTilt()
 
-    # get signal data by creating another process
-    p = myProcess()
-    p.start()
-    time.sleep(3)
-    os.kill(p.pid, signal.SIGTERM) # kill process after certain amount of time
-    p.join()  # wait till process is definitely killed
+align()
 
-    # process header and signal data
-    execfile("processData_new.py")
-    execfile("processData.py")
+#Folder Setup
+folderName = raw_input("Enter Test Name")
+os.system("mkdir Data_" + folderName)
 
-    # run the stepper
-    execfile("runMotor.py")
+#Getting Heading
+startHeading = compass.getHeading()
+print "Start Heading: " + str(startHeading)
+
+while (abs(startHeading - compass.getHeading()) <= 180):
+    currHeading = compass.getHeading()
+    while (abs(compass.getHeading() - currHeading) <= 10):
+        panTilt.right()
+    panTilt.stop()
+    execfile("GNU_v2.py")
+    #rename signal files
+    print "Heading Change: " + str(abs(compass.getHeading() - currHeading))
+    os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(heading)) + ".bin")
+    print("Finished one heading")
+    answer = raw_input("Press Enter to Continue")
+    #answer = raw_input("Press Enter to Continue, or Q to quit")
+    #if answer == 'q' or answer == 'Q':
+    #    break
+align()
+

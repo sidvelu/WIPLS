@@ -1,29 +1,19 @@
-__author__ = 'siddharth'
-
-from MAG3110 import MAG3110
+from LSM303 import LSM303
 import time
 
 try:
-	mag = MAG3110()
-	print "I2C Bus is accessible"
+    compass = LSM303()
+    print "Compass Active"
 except:
-	print "Error in opening up I2C Bus"
+    print "Error Activating Compass"
 
-
-prevHeading = 999
 f = open('magData.txt', 'w')
 
-for x in range(0, 20):  # 2 seconds
-    heading  = mag.getHeading()
+for x in range(0, 5):  # 2 seconds
+    heading = compass.getHeading()
     print "Heading: " + str(heading)
-	
-    if (abs(heading - prevHeading) > 1):
-        text = "Heading: " + str(heading) + " Time: " + time.asctime() + " \n" 
-	f.write(str(heading)+"\n")	
-	#print text
-	prevHeading = heading
-
+    f.write(str(heading)+"\n")
     time.sleep(.1)
-f.close()
 
+f.close()
 
