@@ -16,14 +16,14 @@ Zmin = 0
 
 while True:
 	sum = 0
-	for x in range(0,6):
+	for x in range(0,10):
 		sum += compass.getHeading()
 		time.sleep(.01)
-	avg = sum / 6
+	avg = sum / 10
 	#print "Heading :" + str(compass.getHeading())
 	print "Average heading:", avg
 	print ""
-#	time.sleep(.1)
+	time.sleep(1)
 
 
 	

@@ -27,6 +27,7 @@ def align():
     print "Heading: " + str(heading)
     panTilt.left()
     while (abs(heading - compass.getHeading()) <= 90):
+        print "loop"
         continue
     panTilt.stop()
     print "Moved 90 degrees going left"

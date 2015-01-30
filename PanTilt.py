@@ -3,10 +3,10 @@ import Adafruit_BBIO.GPIO as GPIO
 import time
 import sys
 
-upPin = "P8_27"
-downPin = "P8_29"
-leftPin = "P8_43"
-rightPin = "P8_45"
+upPin = "P8_16"
+downPin = "P8_14"
+leftPin = "P8_12"
+rightPin = "P8_10"
 
 
 class PanTilt:
