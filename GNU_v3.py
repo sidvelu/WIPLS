@@ -85,3 +85,4 @@ if __name__ == '__main__':
     tb = GNU_v3()
     tb.start()
     tb.wait()
+    del tb
