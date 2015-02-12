@@ -3,22 +3,14 @@ import os
 import sys
 
 # load all GNUradio modules here, so we load only once
-# to reduce time to take samples
-# DONT THINK THIS IS NEEDED ANYMORE!!!!!!!!
-'''
 print "Loading GNUradio modules once..."
-from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import eng_notation
-from gnuradio import fft
-from gnuradio import filter
 from gnuradio import gr
 from gnuradio.eng_option import eng_option
-from gnuradio.fft import window
 from gnuradio.filter import firdes
 from optparse import OptionParser
 import baz
-'''
 
 from LSM303 import LSM303
 from GPS import GPS
@@ -52,7 +44,7 @@ DEGREES = 180.0
 #align()
 panTilt.stop()
 
-#Folder Setup
+# get setup options
 folderName = raw_input("Enter Test Name: ")
 startHeading = raw_input("Enter start heading: ")
 direction = raw_input("Enter direction (l or r): ")
