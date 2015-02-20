@@ -1,7 +1,7 @@
 
 dir = input('Please enter the directory: ', "s");
 files = readdir(dir);
-files = files(3:(2 + ((length(files)-2) / 2)));
+files = files(3:length(files));
 angles_text = strrep(strrep(files, "passband_signal_", ""), ".0.bin", "");
 angles_text = angles_text;
 angles = str2num(char(angles_text));
@@ -12,5 +12,5 @@ for n = 1:length(angles)
   fclose(PBFID);
 end
 fftpb = abs(fftshift(fft(pbsignal), 1) .^ 2);
-overangles = sum(fftpb(:,23500:36500), 2);
+overangles = sum(fftpb(:,13500:16500), 2);
 t = 10^-5 * (1:60000);
