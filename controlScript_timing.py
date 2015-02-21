@@ -20,7 +20,7 @@ def align():
     panTilt.stop()
     raw_input("Press enter to align")
     panTilt.right()
-    time.sleep(90 / RATE)
+    time.sleep(degrees / RATE)
     panTilt.stop()
 
 def getHeading():
@@ -38,8 +38,8 @@ panTilt = PanTilt()
 # CONSTANTS TO BE SETUP
 #RATE = 6.9231 # degrees per second
 RATE = 6.8
-DATAPOINTS = 10.0
-DEGREES = 90.0
+#DATAPOINTS = 10.0
+#DEGREES = 180.0
 
 #align()
 panTilt.stop()
@@ -48,17 +48,28 @@ panTilt.stop()
 folderName = raw_input("Enter Test Name: ")
 startHeading = raw_input("Enter start heading: ")
 direction = raw_input("Enter direction (l or r): ")
+degrees = raw_input("Enter degrees to pan: ")
+datapoints = raw_input("Enter number of datapoints: ")
 os.system("mkdir Data_" + folderName)
+
+try:
+    degrees = int(degrees)
+except ValueError:
+    print "Invalid number for degrees."
+try:
+    datapoints = int(datapoints)
+except ValueError:
+    print "Invalid number for datapoints."
 
 #Getting Heading
 #startHeading = getHeading()
 #print "Start Heading: " + str(startHeading)
 
 counter = 0
-SLEEP_TIME = (DEGREES / DATAPOINTS) / RATE
+SLEEP_TIME = (degrees / datapoints) / RATE
 print str(SLEEP_TIME)
 currHeading = int(startHeading)
-while counter < DATAPOINTS:
+while counter < datapoints:
     if (direction == "r"):
         panTilt.right()
     elif (direction == "l"):
@@ -87,4 +98,5 @@ while counter < DATAPOINTS:
     counter += 1
     print str(counter)
 
-align()
+#align()
+panTilt.stop()
