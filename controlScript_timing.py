@@ -38,8 +38,8 @@ panTilt = PanTilt()
 # CONSTANTS TO BE SETUP
 #RATE = 6.9231 # degrees per second
 RATE = 6.8
-DATAPOINTS = 50.0
-DEGREES = 180.0
+DATAPOINTS = 10.0
+DEGREES = 90.0
 
 #align()
 panTilt.stop()
@@ -66,9 +66,15 @@ while counter < DATAPOINTS:
         
     time.sleep(SLEEP_TIME)
     panTilt.stop()
-    execfile("GNU_v3.py")
-    currHeading -= SLEEP_TIME * RATE
+    #execfile("GNU_v3.py")
+    if(direction == 'l'):
+        currHeading -= SLEEP_TIME * RATE
+    elif(direction == 'r'):
+        currHeading += SLEEP_TIME * RATE
+
     if currHeading < 0:
+        currHeading %= 360
+    if currHeading > 0:
         currHeading %= 360
     print "currHeading: ", currHeading
    #rename signal files

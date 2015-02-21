@@ -5,7 +5,7 @@ import sys
 
 upPin = "P8_16"
 downPin = "P8_14"
-leftPin = "P8_12"
+leftPin = "P8_26"
 rightPin = "P8_10"
 
 
