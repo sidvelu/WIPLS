@@ -14,7 +14,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmexPtEq3x47gN0jvXbcsAv5GlZGSD02Q&libraries=geometry"></script>
     <script>
-
+        
 function initialize() {
     var json = $.getJSON("data.json").done(function () {showMap(json);});
 }
@@ -23,6 +23,34 @@ function showMap(json) {
     //console.log(json);
     var data = JSON.parse(json.responseText);
     //console.log(data);
+    
+    function DatasetTextbox(controlDiv, map) {
+        controlDiv.style.padding = '5px';
+        var controlUI = document.createElement('div');
+        controlUI.style.backgroundColor = '#fff';
+        controlUI.style.border = '2px solid #fff';
+        controlUI.style.borderRadius = '3px';
+        controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlUI.style.cursor = 'pointer';
+        controlUI.style.marginBottom = '5px';
+        controlUI.title = 'Dataset';
+        controlDiv.appendChild(controlUI);
+        
+        var controlText = document.createElement('div');
+        controlText.style.color = 'rgb(25,25,25)';
+        controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+        controlText.style.fontSize = '16px';
+        controlText.style.lineHeight = '18px';
+        controlText.style.paddingLeft = '5px';
+        controlText.style.paddingRight = '5px';
+        controlText.innerHTML = '<center><strong>WIPLS Locator Map<br /> <font style="font-size:80%">Dataset:</strong> ' + data.dataset + '</center>'/* +
+            '<div align="right"><font style="font-size:50%"><em>Click for details.</em></font></div>'*/;
+        controlUI.appendChild(controlText);
+        
+        google.maps.event.addDomListener(controlUI, 'click', function() {
+            window.open("data.json");
+        });
+    }
     
     beaconCoords = new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long);
     var beaconGuessCoords = new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long);
@@ -34,10 +62,14 @@ function showMap(json) {
         center: beaconCoords,
         zoom: 18
     };
-    
 
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     
+    var datasetTextboxDiv = document.createElement('div');
+    var datasetTextbox = new DatasetTextbox(datasetTextboxDiv, map);
+    
+    datasetTextbox.index = 1;
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(datasetTextboxDiv);
         
     var distanceoff = google.maps.geometry.spherical.computeDistanceBetween(beaconCoords,beaconGuessCoords);
 
@@ -49,7 +81,7 @@ function showMap(json) {
     });
     
     var beaconInfo = new google.maps.InfoWindow({
-        content: "<b>True beacon position</b><br/>"+
+        content: "<font style=\"font-weight: bold\">True beacon position</font><br/>"+
         beaconCoords.lat().toFixed(4) + ", " + beaconCoords.lng().toFixed(4)
     });
     
@@ -61,7 +93,7 @@ function showMap(json) {
     });
     
     var beaconGuessInfo = new google.maps.InfoWindow({
-        content: "<b>Guessed beacon position</b><br/>" +
+        content: "<font style=\"font-weight: bold\">Guessed beacon position</font><br/>" +
         beaconGuessCoords.lat().toFixed(4) + ", " + beaconGuessCoords.lng().toFixed(4) +
         "<br/> Error: " + distanceoff.toFixed(4) + "m"
     });
@@ -69,36 +101,36 @@ function showMap(json) {
     var antenna1 = new google.maps.Marker({
         position: antenna1Coords,
         map: map,
-        title: 'Antenna one position',
+        title: 'Tracker one position',
         icon: 'http://i.imgur.com/kN8u5cm.png'
     });
     
     var antenna1Info = new google.maps.InfoWindow({
-        content: "<b>Antenna one position</b><br/>"+
+        content: "<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
         antenna1Coords.lat().toFixed(4) + ", " + antenna1Coords.lng().toFixed(4)
     });
     
     var antenna2 = new google.maps.Marker({
         position: antenna2Coords,
         map: map,
-        title: 'Antenna two position',
+        title: 'Tracker two position',
         icon: 'http://i.imgur.com/kN8u5cm.png'
     });
     
     var antenna2Info = new google.maps.InfoWindow({
-        content: "<b>Antenna two position</b><br/>"+
+        content: "<font style=\"font-weight: bold\">Tracker two position</font><br/>"+
         antenna2Coords.lat().toFixed(4) + ", " + antenna2Coords.lng().toFixed(4)
     });
     
     var antenna3 = new google.maps.Marker({
         position: antenna3Coords,
         map: map,
-        title: 'Antenna three position',
+        title: 'Tracker three position',
         icon: 'http://i.imgur.com/kN8u5cm.png'
     });
     
     var antenna3Info = new google.maps.InfoWindow({
-        content: "<b>Antenna three position</b><br/>"+
+        content: "<font style=\"font-weight: bold\">Tracker three position</font><br/>"+
         antenna3Coords.lat().toFixed(4) + ", " + antenna3Coords.lng().toFixed(4)
     });
     
