@@ -1,0 +1,23 @@
+{
+    "beaconCoords": {
+        "lat": 42.337099,
+        "long": -71.090505
+    },
+    "beaconGuessCoords": {
+        "lat": 42.337065,
+        "long": -71.089917
+    },
+    "antenna1Coords": {
+        "lat": 42.337523,
+        "long": -71.090046
+    },
+    "antenna2Coords": {
+        "lat": 42.336939,
+        "long": -71.091266
+    },
+    "antenna3Coords": {
+        "lat": 42.337527,
+        "long": -71.089337
+    },
+    "dataset": "testDatasetOne"
+}

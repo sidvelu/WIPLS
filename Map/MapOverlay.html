@@ -11,23 +11,34 @@
         padding: 0px
       }
     </style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmexPtEq3x47gN0jvXbcsAv5GlZGSD02Q&libraries=geometry"></script>
     <script>
 
-// Need to figure out how to pass in coords
 function initialize() {
-    var beaconCoords = new google.maps.LatLng(42.337099, -71.090505);
-    var beaconGuessCoords = new google.maps.LatLng(42.337065, -71.089917);
-    var antenna1Coords = new google.maps.LatLng(42.337523, -71.090046);
-    var antenna2Coords = new google.maps.LatLng(42.336939, -71.091266);
-    var antenna3Coords = new google.maps.LatLng(42.337527, -71.089337);
+    var json = $.getJSON("data.json").done(function () {showMap(json);});
+}
+        
+function showMap(json) {
+    //console.log(json);
+    var data = JSON.parse(json.responseText);
+    //console.log(data);
+    
+    beaconCoords = new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long);
+    var beaconGuessCoords = new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long);
+    var antenna1Coords = new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long);
+    var antenna2Coords = new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long);
+    var antenna3Coords = new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long);
+    
     var mapOptions = {
         center: beaconCoords,
         zoom: 18
     };
+    
 
     var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     
+        
     var distanceoff = google.maps.geometry.spherical.computeDistanceBetween(beaconCoords,beaconGuessCoords);
 
     var beacon = new google.maps.Marker({
@@ -106,6 +117,7 @@ function initialize() {
     google.maps.event.addListener(antenna3, 'click', function() {
         antenna3Info.open(map, antenna3); 
     });
+    
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
