@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WIPLS</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmexPtEq3x47gN0jvXbcsAv5GlZGSD02Q&libraries=geometry"></script>
+    <script>
+
+function initialize() {
+    var beaconCoords = new google.maps.LatLng(42.337099, -71.090505);
+    var beaconGuessCoords = new google.maps.LatLng(42.337065, -71.089917);
+    var antenna1Coords = new google.maps.LatLng(42.337523, -71.090046);
+    var antenna2Coords = new google.maps.LatLng(42.336939, -71.091266);
+    var antenna3Coords = new google.maps.LatLng(42.337527, -71.089337);
+  var mapOptions = {
+    center: beaconCoords,
+    zoom: 18
+  };
+
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+    mapOptions);
+    
+    var distanceoff = google.maps.geometry.spherical.computeDistanceBetween(beaconCoords,beaconGuessCoords);
+
+  var beacon = new google.maps.Marker({
+      position: beaconCoords,
+      map: map,
+      title: 'True beacon position',
+      icon: 'http://i.imgur.com/AOm4N8n.png'
+  });
+    
+    var beaconInfo = new google.maps.InfoWindow({
+        content: "<b>True beacon position</b><br/>"+
+        beaconCoords.lat().toFixed(4) + ", " + beaconCoords.lng().toFixed(4)
+    });
+    
+    var beaconGuess = new google.maps.Marker({
+      position: beaconGuessCoords,
+      map: map,
+      title: 'Guessed beacon position',
+        icon: 'http://i.imgur.com/9wox1aO.png'
+  });
+    
+    var beaconGuessInfo = new google.maps.InfoWindow({
+        content: "<b>Guessed beacon position</b><br/>" +
+        beaconGuessCoords.lat().toFixed(4) + ", " + beaconGuessCoords.lng().toFixed(4) + "<br/>" +
+        "Error: " + distanceoff.toFixed(4) + "m"
+    });
+    
+    var antenna1 = new google.maps.Marker({
+      position: antenna1Coords,
+      map: map,
+      title: 'Antenna one position',
+        icon: 'http://i.imgur.com/kN8u5cm.png'
+  });
+    
+    var antenna1Info = new google.maps.InfoWindow({
+        content: "<b>Antenna one position</b><br/>"+
+        antenna1Coords.lat().toFixed(4) + ", " + antenna1Coords.lng().toFixed(4)
+    });
+    
+    var antenna2 = new google.maps.Marker({
+      position: antenna2Coords,
+      map: map,
+      title: 'Antenna two position',
+        icon: 'http://i.imgur.com/kN8u5cm.png'
+  });
+    
+    var antenna2Info = new google.maps.InfoWindow({
+        content: "<b>Antenna two position</b><br/>"+
+        antenna2Coords.lat().toFixed(4) + ", " + antenna2Coords.lng().toFixed(4)
+    });
+    
+    var antenna3 = new google.maps.Marker({
+      position: antenna3Coords,
+      map: map,
+      title: 'Antenna three position',
+        icon: 'http://i.imgur.com/kN8u5cm.png'
+  });
+    
+    var antenna3Info = new google.maps.InfoWindow({
+        content: "<b>Antenna three position</b><br/>"+
+        antenna3Coords.lat().toFixed(4) + ", " + antenna3Coords.lng().toFixed(4)
+    });
+    
+    google.maps.event.addListener(beacon, 'click', function() {
+       beaconInfo.open(map, beacon); 
+    });
+    google.maps.event.addListener(beaconGuess, 'click', function() {
+       beaconGuessInfo.open(map, beaconGuess); 
+    });
+    google.maps.event.addListener(antenna1, 'click', function() {
+       antenna1Info.open(map, antenna1); 
+    });
+    google.maps.event.addListener(antenna2, 'click', function() {
+       antenna2Info.open(map, antenna2); 
+    });
+    google.maps.event.addListener(antenna3, 'click', function() {
+       antenna3Info.open(map, antenna3); 
+    });
+    
+    
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
