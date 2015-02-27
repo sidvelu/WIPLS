@@ -5,9 +5,15 @@ Northeastern University Electrical and Computer Engineering Capstone Project, 20
 Members:
 
 KD (EE)
+
 NF (CE)
+
 MK (CE)
+
 DS (EE)
+
 SS (EE)
+
 BT (CE)
+
 SV (CE)
