@@ -54,6 +54,11 @@ function showMap(json) {
     
     beaconCoords = new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long);
     var beaconGuessCoords = new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long);
+    var beaconPolygonCoords = [
+        new google.maps.LatLng(data.guessVector[0].lat, data.guessVector[0].long),
+        new google.maps.LatLng(data.guessVector[1].lat, data.guessVector[1].long),
+        new google.maps.LatLng(data.guessVector[2].lat, data.guessVector[2].long)
+    ];
     var antenna1Coords = new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long);
     var antenna2Coords = new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long);
     var antenna3Coords = new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long);
@@ -98,6 +103,21 @@ function showMap(json) {
         "<br/> Error: " + distanceoff.toFixed(4) + "m"
     });
     
+    var beaconPolygon = new google.maps.Polygon({
+       paths: beaconPolygonCoords,
+        strokeColor: '#00FF00',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#00FF00',
+        fillOpacity: 0.35
+    });
+    
+    beaconPolygon.setMap(map);
+    
+    var beaconPolygonInfo = new google.maps.InfoWindow({
+       content: "<font style=\"font-weight: bold\">Approximate beacon area</font></br>"
+    });
+    
     var antenna1 = new google.maps.Marker({
         position: antenna1Coords,
         map: map,
@@ -139,6 +159,9 @@ function showMap(json) {
     });
     google.maps.event.addListener(beaconGuess, 'click', function() {
         beaconGuessInfo.open(map, beaconGuess); 
+    });
+    google.maps.event.addListener(beaconPolygon, 'click', function() {
+        beaconPolygonInfo.open(map, beaconGuess);
     });
     google.maps.event.addListener(antenna1, 'click', function() {
         antenna1Info.open(map, antenna1); 

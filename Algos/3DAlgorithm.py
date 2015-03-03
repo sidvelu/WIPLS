@@ -83,17 +83,17 @@ def getUnknownPosition(A, B):
 # phi should be in [0, 360)
 # theta should be in [0, 90] (realistically it won't reach 90 because of our pan/tilt limitations)
 
-Beacon1x = 1
-Beacon1y = 1
-Beacon1z = 1
-Beacon1phi = 180
-Beacon1theta = 45
+Beacon1x = -71.08964333333333
+Beacon1y = 42.33765
+Beacon1z = 0
+Beacon1phi = 254
+Beacon1theta = 0
 
-Beacon2x = 0
-Beacon2y = 2
-Beacon2z = 1
-Beacon2phi = 270
-Beacon2theta = 45
+Beacon2x = -71.09050666666667
+Beacon2y = 42.33734
+Beacon2z = 0
+Beacon2phi = 190
+Beacon2theta = 0
 
 a_measure = BeaconMeasurements(Beacon1x, Beacon1y, Beacon1z, Beacon1phi, Beacon1theta)
 b_measure = BeaconMeasurements(Beacon2x, Beacon2y, Beacon2z, Beacon2phi, Beacon2theta)
