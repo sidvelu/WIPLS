@@ -70,9 +70,11 @@ o_heading = open("info.txt", "w")
 heading  = GPS.getCoordinates()
 if heading != 0:
     o_heading.write("Tracker GPS Coordinates:\n")
-    o_heading.write('\t\t"lat:" ' + "-" if heading[1] == 'S' else "")
+    o_heading.write('\t\t"lat:" ')
+    o_heading.write("-" if heading[1] == 'S' else "")
     o_heading.write(str(heading[0]) + "\n")
-    o_heading.write('\t\t"long:" ' + "-" if heading[3] == 'W' else "")
+    o_heading.write('\t\t"long:" ')
+    o_heading.write("-" if heading[3] == 'W' else "")
     o_heading.write(str(heading[2]) + "\n")
     o_heading.close()
 else:
