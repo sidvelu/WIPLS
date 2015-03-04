@@ -115,5 +115,8 @@ while counter < datapoints:
     counter += 1
     print str(counter)
 
+os.system("octave processData_new.m Data_" + folderName) # produces angle.txt file
+# insert XBee send to computer
+
 #align()
 panTilt.stop()
