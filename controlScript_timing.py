@@ -71,9 +71,9 @@ heading  = GPS.getCoordinates()
 if heading != 0:
     o_heading.write("Tracker GPS Coordinates:\n")
     o_heading.write('\t\t"lat:" ' + "-" if heading[1] == 'S' else "")
-    o_heading.write(heading[0] + "\n")
+    o_heading.write(str(heading[0]) + "\n")
     o_heading.write('\t\t"long:" ' + "-" if heading[3] == 'W' else "")
-    o_heading.write(heading[2] + "\n")
+    o_heading.write(str(heading[2]) + "\n")
     o_heading.close()
 else:
     o_heading.write("GPS heading not found.\n")
