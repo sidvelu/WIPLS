@@ -14,6 +14,22 @@ class BeaconMeasurements():
         self.phi = radians(phi)
         self.theta = radians(theta)
 
+def triangulate(A, B, C):
+    assert isinstance(A, BeaconMeasurements)
+    assert isinstance(B, BeaconMeasurements)
+    assert isinstance(C, BeaconMeasurements)
+
+    pos1 = getUnknownPosition(A, B)
+    print "Corner 1: " + str(pos1.x) + " " + str(pos1.y) + " " + str(pos1.z)
+    pos2 = getUnknownPosition(A, C)
+    print "Corner 2: " + str(pos2.x) + " " + str(pos2.y) + " " + str(pos2.z)
+    pos3 = getUnknownPosition(B, C)
+    print "Corner 3: " + str(pos3.x) + " " + str(pos3.y) + " " + str(pos3.z)
+
+    averagePosition = Coordinates((pos1.x + pos2.x + pos3.x)/3, (pos1.y + pos2.y + pos3.y)/3, (pos1.z + pos2.z + pos3.z)/3)
+
+    return averagePosition
+
 def getUnknownPosition(A, B):
     assert isinstance(A, BeaconMeasurements)
     assert isinstance(B, BeaconMeasurements)
@@ -75,7 +91,48 @@ def getUnknownPosition(A, B):
 
     return result
 
-# Test case
+# Triangulate
+
+# Enter info here
+Beacon1lat = 42.337435
+Beacon1long = -71.091525
+Beacon1angle = 175
+
+Beacon2lat = 42.33765
+Beacon2long = -71.08964333333333
+Beacon2angle = 254
+
+Beacon3lat = 42.33734
+Beacon3long = -71.09050666666667
+Beacon3angle = 190
+
+# Don't edit this part
+Beacon1x = Beacon1lat
+Beacon1y = Beacon1long
+Beacon1z = 0
+Beacon1phi = Beacon1angle
+Beacon1theta = 0
+
+Beacon2x = Beacon2lat
+Beacon2y = Beacon2long
+Beacon2z = 0
+Beacon2phi = Beacon2angle
+Beacon2theta = 0
+
+Beacon3x = Beacon3lat
+Beacon3y = Beacon3long
+Beacon3z = 0
+Beacon3phi = Beacon3angle
+Beacon3theta = 0
+
+tracker1 = BeaconMeasurements(Beacon1x, Beacon1y, Beacon1z, Beacon1phi, Beacon1theta)
+tracker2 = BeaconMeasurements(Beacon2x, Beacon2y, Beacon2z, Beacon2phi, Beacon2theta)
+tracker3 = BeaconMeasurements(Beacon3x, Beacon3y, Beacon3z, Beacon3phi, Beacon3theta)
+
+answer = triangulate(tracker1, tracker2, tracker3)
+print "Guess: " + str(answer.x) + ", " + str(answer.y) + ", " + str(answer.z) + "\n"
+
+# Findunknownposition test case
 # Solution is at 0, 1, 2
 # One tracker at 1, 1, 1 with phi 180 and theta 45 (45degrees between -x and +z)
 # Other tracker at 0, 2, 1 with phi 270 and theta 45 (45degrees between -y and +z)
@@ -83,17 +140,17 @@ def getUnknownPosition(A, B):
 # phi should be in [0, 360)
 # theta should be in [0, 90] (realistically it won't reach 90 because of our pan/tilt limitations)
 
-Beacon1x = -71.08964333333333
-Beacon1y = 42.33765
-Beacon1z = 0
-Beacon1phi = 254
-Beacon1theta = 0
+Beacon1x = 1
+Beacon1y = 1
+Beacon1z = 1
+Beacon1phi = 180
+Beacon1theta = 45
 
-Beacon2x = -71.09050666666667
-Beacon2y = 42.33734
-Beacon2z = 0
-Beacon2phi = 190
-Beacon2theta = 0
+Beacon2x = 0
+Beacon2y = 2
+Beacon2z = 1
+Beacon2phi = 270
+Beacon2theta = 45
 
 a_measure = BeaconMeasurements(Beacon1x, Beacon1y, Beacon1z, Beacon1phi, Beacon1theta)
 b_measure = BeaconMeasurements(Beacon2x, Beacon2y, Beacon2z, Beacon2phi, Beacon2theta)
