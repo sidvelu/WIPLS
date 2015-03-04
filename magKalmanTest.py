@@ -1,4 +1,4 @@
-from LSM303 import LSM303
+from sid_test_mag import LSM303
 import time
 import random
 
@@ -22,7 +22,7 @@ while True:
     Xtime = 0
     Ptime = 1
     for x in range(0, 500):
-        Z = compass.getHeading(False)
+        Z = compass.getHeading()
         #Z = random.choice(my_list)
         #print "Measured:", Z
         Kupdate = Ptime / (Ptime + 0.1)  # R = 0.1, it's what guide did
