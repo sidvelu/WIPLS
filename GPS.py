@@ -21,7 +21,7 @@ class GPS:
         fix = False
         start = dt.datetime.now()
         end = dt.datetime.now()
-        while (fix == False and (end-start).microseconds < 1000):
+        while (fix == False and (end-start).microseconds < 1000000):
             line = self.ser.readline()
             if "$GPGGA" in line:
                 line = line.split(",") # return list split by comma

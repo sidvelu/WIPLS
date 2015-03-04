@@ -66,11 +66,18 @@ except ValueError:
 #startHeading = getHeading()
 #print "Start Heading: " + str(startHeading)
 
-o_heading = open("heading.txt", "w")
+o_heading = open("info.txt", "w")
 heading  = GPS.getCoordinates()
-o_heading.write(str(heading) + "\n")
-o_heading.close()
-os.system("mv heading.txt Data_" + folderName + "/heading.txt")
+if heading != 0:
+    o_heading.write("Tracker GPS Coordinates:\n")
+    o_heading.write('\t\t"lat:" ' + "-" if heading[1] == 'S' else "")
+    o_heading.write(heading[0] + "\n")
+    o_heading.write('\t\t"long:" ' + "-" if heading[3] == 'W' else "")
+    o_heading.write(heading[2] + "\n")
+    o_heading.close()
+else:
+    o_heading.write("GPS heading not found.\n")
+os.system("mv info.txt Data_" + folderName + "/info.txt")
 
 
 counter = 0
