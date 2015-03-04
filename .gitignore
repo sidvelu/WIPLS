@@ -8,3 +8,4 @@ sh.exe.stackdump
 .idea/vcs.xml
 .idea/WIPLS.iml
 .idea/workspace.xml
+*.DS_Store
