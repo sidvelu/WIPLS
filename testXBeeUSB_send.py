@@ -1,6 +1,7 @@
 import time
 from xbee import XBee
 import serial
+from digimesh import DigiMesh
 
 PORT = '/dev/tty.usbserial-DA017XSD'
 #PORT = '/dev/tty.usbserial-DA017OQ8'
@@ -13,15 +14,19 @@ if (ser.isOpen()):
     print "its open"
 
 # Create API object
-xbee = XBee(ser, escaped=True)
+#xbee = XBee(ser, escaped=True)
+digi = DigiMesh(ser, escaped=True)
 
-DEST_ADDR_LONG = '\x00\x13\xA2\x00\x40\xC4\x04\x84'
+#DEST_ADDR_LONG = b'\x00\x13\xA2\x00\x40\xC4\x04\x84'
+DEST_ADDR_LONG = b'\x00\x00\x00\x00\x00\x00\xFF\xFF'
 
 # Continuously read and print packets
 while True:
     try:
 	print "send data"
-	ser.write("test\n")
+#	ser.write("test\n")
+	digi.send("tx", dest_addr=DEST_ADDR_LONG, data='192.168.7.2 Hello Worldddddddddddddd')
+
 #	xbee.send("at", frame='A', command='MY', parameter=None)
 #	xbee.at(frame_id='A', command='SH')
 ##	xbee.send("tx_long_addr", dest_addr=DEST_ADDR_LONG, data='Hello World', id='\x10')
