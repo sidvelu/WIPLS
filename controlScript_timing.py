@@ -17,6 +17,11 @@ from LSM303 import LSM303
 from GPS import GPS
 from PanTilt import PanTilt
 
+from Adafruit_BBIO.UART as UART
+
+UART.setup("UART2")
+
+
 def align():
     panTilt.stop()
     raw_input("Press enter to align")
