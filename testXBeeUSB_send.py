@@ -25,7 +25,7 @@ while True:
     try:
 	print "send data"
 #	ser.write("test\n")
-	digi.send("tx", dest_addr=DEST_ADDR_LONG, data='192.168.7.2 Hello Worldddddddddddddd')
+	digi.send("tx", dest_addr=DEST_ADDR_LONG, data='Hello from USB')
 
 #	xbee.send("at", frame='A', command='MY', parameter=None)
 #	xbee.at(frame_id='A', command='SH')
@@ -38,7 +38,7 @@ while True:
 #	ser.write("\x7E\x00\x10\x10\x01\x00\x00\x00\x00\x00\x00\xFF\xFF\xFF\xFE\x00\x00\x7A\x7A\xFF")
 
 #       xbee.tx_long_addr(frame='0x1', dest_addr=DEST_ADDR_LONG, data='AB')
-        time.sleep(1)
+        time.sleep(.1)
     except KeyboardInterrupt:
         break
 
