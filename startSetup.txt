@@ -1,0 +1,6 @@
+Command to open up crontab
+sudo crontab -e
+
+@reboot python %DirectLinkToPythonFile% &
+
+ps aux | grep .py
