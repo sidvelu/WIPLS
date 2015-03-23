@@ -18,7 +18,7 @@ class controlProcess(Process):
     def __init__(self):
         Process.__init__(self)
     def run(self):
-        execfile("testMag.py")
+        execfile("controlScript_timing.py")
 
 #Create XBee Class
 xbee = XBee()
@@ -46,20 +46,20 @@ while True:
     try:
         print "waiting"
         response = xbee.read()
-        if response['data'] == 'start':
+        if response == 'start':
             os.system("python /root/WIPLS/bootTest.py")
-        elif response['data'] == 'stop':
+        elif response == 'stop':
             kill()
-        elif response['data'] == 'kill':
+        elif response == 'kill':
             kill()
             sys.exit(0)
-        elif response['data'] == 'mag':
+        elif response == 'mag':
             try:
                 m.start()
             except:
                 m = magProcess()
                 m.start()
-        elif response['data'] == 'control':
+        elif response == 'control':
             try:
                 c.start()
             except:
