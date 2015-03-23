@@ -27,6 +27,3 @@ class XBee:
         message = self.XBeeNum + message
         digi.send("tx", dest_addr=DEST_ADDR, data = message)
     
-
-
-
