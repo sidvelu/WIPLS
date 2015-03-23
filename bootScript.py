@@ -6,6 +6,7 @@ import os
 from multiprocessing import Process
 import signal
 import sys
+from XBee import XBee
 
 class magProcess(Process):
     def __init__(self):
@@ -17,21 +18,12 @@ class controlProcess(Process):
     def __init__(self):
         Process.__init__(self)
     def run(self):
-        execfile("testMag.py")
+        execfile("controlScript_timing.py")
 
-UART.setup("UART2")
+#Create XBee Class
+xbee = XBee()
 
-PORT = '/dev/ttyO2'
-BAUD_RATE = 9600
-
-# Open serial port
-ser = serial.Serial(PORT, BAUD_RATE)
-
-if (ser.isOpen()):
-    print "its open"
-
-# Create API object
-digi = DigiMesh(ser, escaped=True)
+#Initialize Mag and CScript Procees
 m = magProcess()
 c = controlProcess()
 
@@ -53,21 +45,21 @@ def kill():
 while True:
     try:
         print "waiting"
-        response = digi.wait_read_frame()
-        if response['data'] == 'start':
+        response = xbee.read()
+        if response == 'start':
             os.system("python /root/WIPLS/bootTest.py")
-        elif response['data'] == 'stop':
+        elif response == 'stop':
             kill()
-        elif response['data'] == 'kill':
+        elif response == 'kill':
             kill()
             sys.exit(0)
-        elif response['data'] == 'mag':
+        elif response == 'mag':
             try:
                 m.start()
             except:
                 m = magProcess()
                 m.start()
-        elif response['data'] == 'control':
+        elif response == 'control':
             try:
                 c.start()
             except:
@@ -78,4 +70,3 @@ while True:
         break
     time.sleep(5)
 
-ser.close()

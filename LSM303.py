@@ -101,6 +101,16 @@ class LSM303:
         a[2] /= mag
         return a
 
+    def getPitch(self):
+        acclX = self.readAcclX()
+        acclY = self.readAcclY()
+        acclZ = self.readAcclZ()
+
+        normX = math.atan( acclX /   math.sqrt(acclX * acclX + acclY * acclY +  acclZ * acclZ) )
+        pitch = math.asin(-normX)
+        return pitch
+        
+
     def getHeading(self, offset=False):
         if offset == True:
             magX = self.magReadX() - self.xoffset

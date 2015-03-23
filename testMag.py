@@ -26,6 +26,7 @@ while True:
     #print "Heading :" + str(compass.getHeading())
     print "Average heading:", avg
     print "Average offset heading:", avgOffset
+    print "Pitch is: ", compass.getPitch()
     print ""
     time.sleep(1)
 

@@ -55,14 +55,14 @@ except ValueError:
 # get initial heading
 startHeading = getHeading()
 print "Start heading: " + str(startHeading)
-xbee.send("heading: " + str(startHeading))
+xbee.send("start heading: " + str(startHeading))
 
 # get GPS coords
 coords = GPS.getCoordinates()
-if heading != 0:
+if coords != 0:
     xbee.send("coords: " + str(coords))
 else:
-    xbee.send("GPS coords not found.\n")
+    xbee.send("GPS coords not found")
 
 counter = 0
 SLEEP_TIME = (degrees / datapoints) / RATE
@@ -98,6 +98,6 @@ os.system("octave processData_new.m Data_" + folderName) # produces angle.txt fi
 
 # send strongest angle via XBee to computer
 ang_file = open('angle.txt', 'r')
-xbee.send(ang_file.read())
+xbee.send("strong angle: " + str(ang_file.read()))
 
 panTilt.stop()

@@ -1,7 +1,6 @@
 import Adafruit_BBIO.UART as UART
 import serial
 import time
-import datetime as dt
 
 
 class GPS:
@@ -19,9 +18,10 @@ class GPS:
 
     def getCoordinates(self):
         fix = False
-        start = dt.datetime.now()
-        end = dt.datetime.now()
-        while (fix == False and (end-start).microseconds < 1000000):
+        start = time.time()
+        end = time.time()
+        while (fix == False and (end-start) <= 1):
+#            print str(end-start)
             line = self.ser.readline()
             if "$GPGGA" in line:
                 line = line.split(",") # return list split by comma
@@ -38,6 +38,6 @@ class GPS:
                     retLatitude = int(latitude_num[0:2]) + (float(latitude_num[2:9]) / 60 );
                     retLongitude = int(longitude_num[0:3]) + (float(longitude_num[3:10]) / 60 );
                     return (retLatitude, latitude_dir,  retLongitude, longitude_dir)
-            end = dt.datetime.now()
+            end = time.time()
         return 0
 

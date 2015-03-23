@@ -16,7 +16,7 @@ class XBee:
             print "its open"
 
         self.digi = DigiMesh(ser, escaped=True)
-        self.xBeeNum = os.environ['XBEE']
+        self.XBeeNum = os.environ['XBEE']
         self.DEST_ADDR = b'\x00\x00\x00\x00\x00\x00\xFF\xFF'
 
     def read(self):
@@ -24,6 +24,6 @@ class XBee:
         return response['data']
 
     def send(self, message):
-        message = self.XBeeNum + message
-        self.digi.send("tx", dest_addr=DEST_ADDR, data = message)
+        message = self.XBeeNum + ", " + str(message)
+        self.digi.send("tx", dest_addr=self.DEST_ADDR, data = message)
     
