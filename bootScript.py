@@ -46,6 +46,7 @@ while True:
     try:
         print "waiting"
         response = xbee.read()
+        print "read"
         if response == 'start':
             os.system("python /root/WIPLS/bootTest.py")
         elif response == 'stop':

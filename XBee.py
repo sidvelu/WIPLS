@@ -16,7 +16,11 @@ class XBee:
             print "its open"
 
         self.digi = DigiMesh(ser, escaped=True)
-        self.XBeeNum = os.environ['XBEE']
+        ID_file = open('/root/WIPLS/XBEE_ID', 'r')
+        self.XBeeNum = str(ID_file.read())
+        ID_file.close()
+        print "XBEE NUM: ", self.XBeeNum
+        
         self.DEST_ADDR = b'\x00\x00\x00\x00\x00\x00\xFF\xFF'
 
     def read(self):
