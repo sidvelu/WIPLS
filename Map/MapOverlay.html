@@ -14,14 +14,63 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmexPtEq3x47gN0jvXbcsAv5GlZGSD02Q&libraries=geometry"></script>
     <script>
+    
         
 function initialize() {
     var json = $.getJSON("data.json").done(function () {showMap(json);});
+map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 }
+
+var mapOptions = {
+    zoom: 18
+};
+        
+var map;
+        
+var prevupdate = null;
+
+var beacon = new google.maps.Marker({
+        position: null,
+        title: 'True beacon position',
+        icon: 'http://i.imgur.com/AOm4N8n.png'
+    });
+        
+var beaconGuess = new google.maps.Marker({
+        position: null,
+        title: 'Guessed beacon position',
+        icon: 'http://i.imgur.com/9wox1aO.png'
+    });
+        
+var beaconPolygon = new google.maps.Polygon({
+       paths: [],
+        strokeColor: '#00FF00',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#00FF00',
+        fillOpacity: 0.35
+    });
+        
+var antenna1 = new google.maps.Marker({
+        position: null,
+        title: 'Tracker one position',
+        icon: 'http://i.imgur.com/kN8u5cm.png'
+    });
+        
+var antenna2 = new google.maps.Marker({
+        position: null,
+        title: 'Tracker two position',
+        icon: 'http://i.imgur.com/kN8u5cm.png'
+    });
+        
+var antenna3 = new google.maps.Marker({
+        position: null,
+        title: 'Tracker three position',
+        icon: 'http://i.imgur.com/kN8u5cm.png'
+    });
         
 function showMap(json) {
     //console.log(json);
-    var data = JSON.parse(json.responseText);
+    data = JSON.parse(json.responseText);
     //console.log(data);
     
     function DatasetTextbox(controlDiv, map) {
@@ -43,9 +92,22 @@ function showMap(json) {
         controlText.style.lineHeight = '18px';
         controlText.style.paddingLeft = '5px';
         controlText.style.paddingRight = '5px';
-        controlText.innerHTML = '<center><strong>WIPLS Locator Map<br /> <font style="font-size:80%">Dataset:</strong> ' + data.dataset + '</center>'/* +
+        controlText.innerHTML = '<center><strong>WIPLS Locator Map<br /> <font style="font-size:80%">Last Update:</strong> ' + data.lastupdate + '</center>'/* +
             '<div align="right"><font style="font-size:50%"><em>Click for details.</em></font></div>'*/;
         controlUI.appendChild(controlText);
+        
+        beacon.setPosition(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
+    beaconGuess.setPosition(new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long));
+    antenna1.setPosition(new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long));
+    antenna2.setPosition(new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long));
+    antenna3.setPosition(new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long));
+    map.setCenter(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
+    beaconPolygon.setPath(
+        [new google.maps.LatLng(data.guessVector[0].lat, data.guessVector[0].long),
+         new google.maps.LatLng(data.guessVector[1].lat, data.guessVector[1].long),
+         new google.maps.LatLng(data.guessVector[2].lat, data.guessVector[2].long)]);
+        
+        prevupdate = data.lastupdate;
         
         google.maps.event.addDomListener(controlUI, 'click', function() {
             window.open("data.json");
@@ -62,13 +124,8 @@ function showMap(json) {
     var antenna1Coords = new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long);
     var antenna2Coords = new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long);
     var antenna3Coords = new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long);
-    
-    var mapOptions = {
-        center: beaconCoords,
-        zoom: 18
-    };
 
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    
     
     var datasetTextboxDiv = document.createElement('div');
     var datasetTextbox = new DatasetTextbox(datasetTextboxDiv, map);
@@ -78,24 +135,14 @@ function showMap(json) {
         
     var distanceoff = google.maps.geometry.spherical.computeDistanceBetween(beaconCoords,beaconGuessCoords);
 
-    var beacon = new google.maps.Marker({
-        position: beaconCoords,
-        map: map,
-        title: 'True beacon position',
-        icon: 'http://i.imgur.com/AOm4N8n.png'
-    });
+    
     
     var beaconInfo = new google.maps.InfoWindow({
         content: "<font style=\"font-weight: bold\">True beacon position</font><br/>"+
         beaconCoords.lat().toFixed(4) + ", " + beaconCoords.lng().toFixed(4)
     });
     
-    var beaconGuess = new google.maps.Marker({
-        position: beaconGuessCoords,
-        map: map,
-        title: 'Guessed beacon position',
-        icon: 'http://i.imgur.com/9wox1aO.png'
-    });
+    
     
     var beaconGuessInfo = new google.maps.InfoWindow({
         content: "<font style=\"font-weight: bold\">Guessed beacon position</font><br/>" +
@@ -103,51 +150,33 @@ function showMap(json) {
         "<br/> Error: " + distanceoff.toFixed(4) + "m"
     });
     
-    var beaconPolygon = new google.maps.Polygon({
-       paths: beaconPolygonCoords,
-        strokeColor: '#00FF00',
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: '#00FF00',
-        fillOpacity: 0.35
-    });
     
+    beacon.setMap(map);
+    beaconGuess.setMap(map);
     beaconPolygon.setMap(map);
+    antenna1.setMap(map);
+    antenna2.setMap(map);
+    antenna3.setMap(map);
     
     var beaconPolygonInfo = new google.maps.InfoWindow({
        content: "<font style=\"font-weight: bold\">Approximate beacon area</font></br>"
     });
     
-    var antenna1 = new google.maps.Marker({
-        position: antenna1Coords,
-        map: map,
-        title: 'Tracker one position',
-        icon: 'http://i.imgur.com/kN8u5cm.png'
-    });
+    
     
     var antenna1Info = new google.maps.InfoWindow({
         content: "<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
         antenna1Coords.lat().toFixed(4) + ", " + antenna1Coords.lng().toFixed(4)
     });
     
-    var antenna2 = new google.maps.Marker({
-        position: antenna2Coords,
-        map: map,
-        title: 'Tracker two position',
-        icon: 'http://i.imgur.com/kN8u5cm.png'
-    });
+    
     
     var antenna2Info = new google.maps.InfoWindow({
         content: "<font style=\"font-weight: bold\">Tracker two position</font><br/>"+
         antenna2Coords.lat().toFixed(4) + ", " + antenna2Coords.lng().toFixed(4)
     });
     
-    var antenna3 = new google.maps.Marker({
-        position: antenna3Coords,
-        map: map,
-        title: 'Tracker three position',
-        icon: 'http://i.imgur.com/kN8u5cm.png'
-    });
+
     
     var antenna3Info = new google.maps.InfoWindow({
         content: "<font style=\"font-weight: bold\">Tracker three position</font><br/>"+
@@ -173,6 +202,46 @@ function showMap(json) {
         antenna3Info.open(map, antenna3); 
     });
     
+}
+        
+setInterval(refreshData, 5000);
+function refreshData() {
+    var data = {};
+    var json = $.getJSON("data.json").done(function () {
+        //showMap(json);
+        data = JSON.parse(json.responseText);
+        
+        console.log(prevupdate);
+        console.log(data.lastupdate);
+        console.log(prevupdate == data.lastupdate);
+        
+        if(prevupdate == data.lastupdate) {
+            return;
+            //Don't refresh unless there is new data
+        } else {
+            updateMap(data);
+        }
+            
+    });
+}
+function updateMap(data) {
+    
+    
+    
+    
+    
+    beacon.setPosition(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
+    beaconGuess.setPosition(new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long));
+    antenna1.setPosition(new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long));
+    antenna2.setPosition(new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long));
+    antenna3.setPosition(new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long));
+    map.setCenter(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
+        beaconPolygon.setPath(
+        [new google.maps.LatLng(data.guessVector[0].lat, data.guessVector[0].long),
+         new google.maps.LatLng(data.guessVector[1].lat, data.guessVector[1].long),
+         new google.maps.LatLng(data.guessVector[2].lat, data.guessVector[2].long)]);
+    
+    prevupdate = data.lastupdate;
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
