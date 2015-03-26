@@ -3,10 +3,15 @@
   <head>
     <title>WIPLS</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
     <meta charset="utf-8">
     <style>
       html, body, #map-canvas {
-        height: 100%;
+        height: 80%;
+        width: 100%;
         margin: 0px;
         padding: 0px
       }
@@ -226,5 +231,63 @@ google.maps.event.addDomListener(window, 'load', initialize);
   </head>
   <body>
     <div id="map-canvas"></div>
+      </div>
+    <br />
+
+<div class ="container 2">
+    <button type = "button" class="btn btn-success">Start</button>
+    <button type = "button" class="btn btn-danger">Stop</button>
+    <button type = "button" class="btn btn-warning">Shut Down</button>
+    
+</div>
+<br>
+
+<div class="container">
+    <table class ="table" border = "2" style="width:100%%">
+
+        <tr class>
+            <td>      </td>
+            <td><b>Latitude</b></td>
+            <td><b>Longitude</b></td>
+            <td><b>Elevation</b></td>
+        </tr>
+        <tr>
+            <td><b>Tracker 1</b>
+            <img src="http://i.imgur.com/75jUeoZ.png"/>
+            </td>
+            <td>Spot 5</td>
+            <td>Spot 6</td>
+            <td>Spot 7</td>
+        </td>
+        <tr>
+            <td><b>Tracker 2</b>
+            <img src="http://i.imgur.com/SsaiSKT.png"/>
+            </td>
+            <td>Spot 8</td>
+            <td>Spot 9</td>
+            <td>Space </td>
+        </tr>
+        <tr>
+            <td><b>Tracker 3</b>
+            <img src="http://i.imgur.com/75jUeoZ.png"/>
+            </td>
+            <td>Spot 11</td>
+            <td>Spot 12</td>
+            <td>Space</td>
+        </tr>
+        <tr>
+            <td><b>Beacon</b></td>
+            <td>Lat</td>
+            <td>Long</td>
+            <td>Elev</td>
+        </tr>
+    </table>
+
+    <table class ="table" border = "2" style = "width:100%">
+        <tr>
+            <td></td>
+        </tr>
+    </table>
+
   </body>
 </html>
