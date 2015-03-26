@@ -148,7 +148,15 @@ function showMap(json) {
     datasetTextbox.index = 1;
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(datasetTextboxDiv);
     
-    beacon.setMap(map);
+    if(data.showbeacon == "false") {
+        printmessage("hiding beacon");
+        beacon.setMap(null);
+    }
+    else {
+        printmessage("showing beacon");
+        beacon.setMap(map);
+    }
+    //beacon.setMap(map);
     beaconGuess.setMap(map);
     beaconPolygon.setMap(map);
     antenna1.setMap(map);
@@ -236,16 +244,25 @@ function updateMap(data, center) {
     
     document.getElementById("t1lat").innerHTML = antenna1Coords.lat().toFixed(6);
     document.getElementById("t1lng").innerHTML = antenna1Coords.lng().toFixed(6);
-    document.getElementById("t1ele").innerHTML = "TODO";
+    document.getElementById("t1ele").innerHTML = data.antenna1Coords.ele.toFixed(6);
     document.getElementById("t2lat").innerHTML = antenna2Coords.lat().toFixed(6);
     document.getElementById("t2lng").innerHTML = antenna2Coords.lng().toFixed(6);
-    document.getElementById("t2ele").innerHTML = "TODO";
+    document.getElementById("t2ele").innerHTML = data.antenna2Coords.ele.toFixed(6);
     document.getElementById("t3lat").innerHTML = antenna3Coords.lat().toFixed(6);
     document.getElementById("t3lng").innerHTML = antenna3Coords.lng().toFixed(6);
-    document.getElementById("t3ele").innerHTML = "TODO";
+    document.getElementById("t3ele").innerHTML = data.antenna3Coords.ele.toFixed(6);
     document.getElementById("blat").innerHTML = beaconGuessCoords.lat().toFixed(6);
     document.getElementById("blng").innerHTML = beaconGuessCoords.lng().toFixed(6);
-    document.getElementById("bele").innerHTML = "TODO";
+    document.getElementById("bele").innerHTML = data.beaconGuessCoords.ele.toFixed(6);
+    
+    if(data.showbeacon == "false") {
+        printmessage("hiding beacon");
+        beacon.setMap(null);
+    }
+    else {
+        printmessage("showing beacon");
+        beacon.setMap(map);
+    }
     
     printmessage(data.lastupdate + ": Map Updated");
     prevupdate = data.lastupdate;
