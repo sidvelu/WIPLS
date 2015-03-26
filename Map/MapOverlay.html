@@ -15,11 +15,20 @@
         margin: 0px;
         padding: 0px
       }
+      li {
+        list-style-type:none;
+      }
     </style>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmexPtEq3x47gN0jvXbcsAv5GlZGSD02Q&libraries=geometry"></script>
     <script>
+function printmessage(message) {
+    var node = document.createElement("li");
+    var textnode = document.createTextNode(message);
+    node.appendChild(textnode);
     
+    document.getElementById("errorbox").appendChild(node);
+}
         
 function initialize() {
     var json = $.getJSON("data.json").done(function () {showMap(json);});
@@ -238,7 +247,7 @@ function updateMap(data, center) {
     document.getElementById("blng").innerHTML = beaconGuessCoords.lng().toFixed(6);
     document.getElementById("bele").innerHTML = "TODO";
     
-    
+    printmessage(data.lastupdate + ": Map Updated");
     prevupdate = data.lastupdate;
 }
 
@@ -272,37 +281,38 @@ google.maps.event.addDomListener(window, 'load', initialize);
             <td><b>Tracker 1</b>
             <img src="http://i.imgur.com/LYgrBwg.png"/>
             </td>
-            <td id="t1lat">t1lat</td>
-            <td id="t1lng">t1lng</td>
-            <td id="t1ele">t1ele</td>
+            <td id="t1lat"></td>
+            <td id="t1lng"></td>
+            <td id="t1ele"></td>
         </td>
         <tr>
             <td><b>Tracker 2</b>
             <img src="http://i.imgur.com/RiAJ9e2.png"/>
             </td>
-            <td id="t2lat">t2lat</td>
-            <td id="t2lng">t2lng</td>
-            <td id="t2ele">t2ele</td>
+            <td id="t2lat"></td>
+            <td id="t2lng">Loading...</td>
+            <td id="t2ele"></td>
         </tr>
         <tr>
             <td><b>Tracker 3</b>
             <img src="http://i.imgur.com/LYgrBwg.png"/>
             </td>
-            <td id="t3lat">t3lat</td>
-            <td id="t3lng">t3lng</td>
-            <td id="t3ele">t3ele</td>
+            <td id="t3lat"></td>
+            <td id="t3lng"></td>
+            <td id="t3ele"></td>
         </tr>
         <tr>
             <td><b>Beacon</b></td>
-            <td id="blat">blat</td>
-            <td id="blng">blng</td>
-            <td id="bele">bele</td>
+            <td id="blat"></td>
+            <td id="blng"></td>
+            <td id="bele"></td>
         </tr>
     </table>
 
     <table class ="table" border = "2" style = "width:100%">
         <tr>
-            <td></td>
+            <td id="errorbox">
+            </td>
         </tr>
     </table>
 
