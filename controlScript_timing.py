@@ -95,7 +95,7 @@ while counter < datapoints:
         
     time.sleep(SLEEP_TIME)
     panTilt.stop()
-    execfile("GNU_v3.py")
+    execfile("GNU_v3.py", globals(), locals())
     if(direction == 'l'):
         currHeading -= SLEEP_TIME * RATE
     elif(direction == 'r'):

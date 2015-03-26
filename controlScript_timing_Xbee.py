@@ -18,86 +18,101 @@ from GPS import GPS
 from PanTilt import PanTilt
 from XBee import XBee
 
-def getHeading():
-    sum = 0
-    for x in range(0,10):
-        sum += compass.getHeading(False)
-    avgHeading = sum / 10
-    return avgHeading
-
 #Setting up compass, GPS, panTilt, & XBee
 compass = LSM303()
 GPS = GPS()
 panTilt = PanTilt()
 xbee = XBee()
 
+def getHeading(compass):
+    sum = 0
+    for x in range(0,10):
+        sum += compass.getHeading(False)
+    avgHeading = sum / 10
+    return avgHeading
+
+def align(panTilt):
+    panTilt.left()  # always start at left barrier
+    time.sleep(52)  # time takes from one barrier to another
+    panTilt.stop()
+
 RATE = 6.8  # rate constant, in degrees per second
+degrees = 180
 
 panTilt.stop()
+#align(panTilt)
 
 # get setup options
-folderName = raw_input("Enter Test Name: ")
-#startHeading = raw_input("Enter start heading: ")
-direction = raw_input("Enter direction (l or r): ")
-degrees = raw_input("Enter degrees to pan: ")
-datapoints = raw_input("Enter number of datapoints: ")
+folderName = "run"
+#direction = raw_input("Enter direction (l or r): ")
+#degrees = raw_input("Enter degrees to pan: ")
+#datapoints = raw_input("Enter number of datapoints: ")
+os.system("rm -rf Data_" + folderName)
 os.system("mkdir Data_" + folderName)
-
+'''
 try:
-    degrees = int(degrees)
+    datapoints = int(sys.argv[0])
 except ValueError:
-    print "Invalid number for degrees."
-try:
-    datapoints = int(datapoints)
-except ValueError:
-    print "Invalid number for datapoints."
-
-# get initial heading
-startHeading = getHeading()
-print "Start heading: " + str(startHeading)
-xbee.send("start heading: " + str(startHeading))
-
+    xbee.send('Invalid number for datapoints.')
+    exit()
+'''
+datapoints = 10
 # get GPS coords
 coords = GPS.getCoordinates()
 if coords != 0:
     xbee.send("coords: " + str(coords))
 else:
     xbee.send("GPS coords not found")
+#    exit()
 
-counter = 0
 SLEEP_TIME = (degrees / datapoints) / RATE
 print str(SLEEP_TIME)
-currHeading = int(startHeading)
-while counter < datapoints:
-    if (direction == "r"):
-        panTilt.right()
-    elif (direction == "l"):
-        panTilt.left()
+
+# start loop to pan
+
+for x in range(0,2):
+    # get initial heading
+    startHeading = getHeading(compass)
+    print "Start heading: " + str(startHeading)
+    if (x == 0):
+        direction = "r"
+    elif (x == 1):
+        direction = "l"
+
+    counter = 0
+    currHeading = int(startHeading)
+    while counter < datapoints:
+        if (direction == "r"):
+            panTilt.right()
+        elif (direction == "l"):
+            panTilt.left()
         
-    time.sleep(SLEEP_TIME)
-    panTilt.stop()
-    execfile("GNU_v3.py")
-    if(direction == 'l'):
-        currHeading -= SLEEP_TIME * RATE
-    elif(direction == 'r'):
-        currHeading += SLEEP_TIME * RATE
+        time.sleep(SLEEP_TIME)
+        panTilt.stop()
+        execfile("GNU_v3.py")
+        if(direction == 'l'):
+            currHeading -= SLEEP_TIME * RATE
+        elif(direction == 'r'):
+            currHeading += SLEEP_TIME * RATE
 
-    if currHeading < 0:
-        currHeading %= 360
-    if currHeading > 0:
-        currHeading %= 360
-    print "currHeading: ", currHeading
-    #rename signal files
-    os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(currHeading)) + ".bin")
-    print("Finished one heading")
+        if currHeading < 0:
+            currHeading %= 360
+        if currHeading > 0:
+            currHeading %= 360
+        print "currHeading: ", currHeading
+        #rename signal files
+        os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(currHeading)) + ".bin")
+        print("Finished one heading")
 
-    counter += 1
-    print str(counter)
+        counter += 1
+        print str(counter)
 
-os.system("octave processData_new.m Data_" + folderName) # produces angle.txt file
+    os.system("octave processData_new.m Data_" + folderName) # produces angle.txt file
 
-# send strongest angle via XBee to computer
-ang_file = open('angle.txt', 'r')
-xbee.send("strong angle: " + str(ang_file.read()))
+    # send strongest angle via XBee to computer
+    ang_file = open('angle.txt', 'r')
+    xbee.send("strong angle: " + str(ang_file.read()))
+    os.system('rm Data_' + folderName + '/*')
 
 panTilt.stop()
+align(panTilt)

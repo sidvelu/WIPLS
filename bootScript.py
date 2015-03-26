@@ -18,7 +18,7 @@ class controlProcess(Process):
     def __init__(self):
         Process.__init__(self)
     def run(self):
-        execfile("controlScript_timing.py")
+        execfile("controlScript_timing_Xbee.py", globals(), locals())
 
 #Create XBee Class
 xbee = XBee()
@@ -60,14 +60,18 @@ while True:
             except:
                 m = magProcess()
                 m.start()
-        elif 'Control' in response:
-            params = response.split(',')
-            sys.argv = [params[1], params[2]]
+        elif 'control' in response:
+            #params = response.split(',')
+            #First param datapoints, second degrees
+            #sys.argv = [params[1]]
+            os.system("python controlScript_timing_Xbee.py")
+            '''
             try:
                 c.start()
             except:
                 c = controlProcess()
                 c.start()
+            '''    
 
     except KeyboardInterrupt:
         break
