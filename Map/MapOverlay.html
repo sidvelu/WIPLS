@@ -126,7 +126,7 @@ function showMap(json) {
         controlText.innerHTML = '<center><strong>WIPLS Locator Map<br /> <font style="font-size:80%">Last Update:</strong> ' + data.lastupdate + '</center>';
         controlUI.appendChild(controlText);
         
-        updateMap(data);
+        updateMap(data, true);
         
         google.maps.event.addDomListener(controlUI, 'click', function() {
             window.open("data.json");
@@ -174,27 +174,29 @@ function refreshData() {
         //showMap(json);
         data = JSON.parse(json.responseText);
         
-        console.log(prevupdate);
-        console.log(data.lastupdate);
-        console.log(prevupdate == data.lastupdate);
+        //console.log(prevupdate);
+        //console.log(data.lastupdate);
+        //console.log(prevupdate == data.lastupdate);
         
         if(prevupdate == data.lastupdate) {
             return;
             //Don't refresh unless there is new data
         } else {
-            updateMap(data);
+            updateMap(data, false);
         }
             
     });
 }
         
-function updateMap(data) {
+function updateMap(data, center) {
     beacon.setPosition(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
     beaconGuess.setPosition(new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long));
     antenna1.setPosition(new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long));
     antenna2.setPosition(new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long));
     antenna3.setPosition(new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long));
-    map.setCenter(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
+    if (center) {
+        map.setCenter(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
+    }
         beaconPolygon.setPath(
         [new google.maps.LatLng(data.guessVector[0].lat, data.guessVector[0].long),
          new google.maps.LatLng(data.guessVector[1].lat, data.guessVector[1].long),
@@ -222,6 +224,21 @@ function updateMap(data) {
     antenna3Info.setContent("<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
         antenna3Coords.lat().toFixed(4) + ", " + antenna3Coords.lng().toFixed(4));
     controlText.innerHTML = '<center><strong>WIPLS Locator Map<br /> <font style="font-size:80%">Last Update:</strong> ' + data.lastupdate + '</center>';
+    
+    document.getElementById("t1lat").innerHTML = antenna1Coords.lat().toFixed(6);
+    document.getElementById("t1lng").innerHTML = antenna1Coords.lng().toFixed(6);
+    document.getElementById("t1ele").innerHTML = "TODO";
+    document.getElementById("t2lat").innerHTML = antenna2Coords.lat().toFixed(6);
+    document.getElementById("t2lng").innerHTML = antenna2Coords.lng().toFixed(6);
+    document.getElementById("t2ele").innerHTML = "TODO";
+    document.getElementById("t3lat").innerHTML = antenna3Coords.lat().toFixed(6);
+    document.getElementById("t3lng").innerHTML = antenna3Coords.lng().toFixed(6);
+    document.getElementById("t3ele").innerHTML = "TODO";
+    document.getElementById("blat").innerHTML = beaconGuessCoords.lat().toFixed(6);
+    document.getElementById("blng").innerHTML = beaconGuessCoords.lng().toFixed(6);
+    document.getElementById("bele").innerHTML = "TODO";
+    
+    
     prevupdate = data.lastupdate;
 }
 
@@ -246,40 +263,40 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <table class ="table" border = "2" style="width:100%%">
 
         <tr class>
-            <td>      </td>
-            <td><b>Latitude</b></td>
-            <td><b>Longitude</b></td>
-            <td><b>Elevation</b></td>
+            <td></td>
+            <td><b>Latitude (°)</b></td>
+            <td><b>Longitude (°)</b></td>
+            <td><b>Elevation (m)</b></td>
         </tr>
         <tr>
             <td><b>Tracker 1</b>
-            <img src="http://i.imgur.com/75jUeoZ.png"/>
+            <img src="http://i.imgur.com/LYgrBwg.png"/>
             </td>
-            <td>Spot 5</td>
-            <td>Spot 6</td>
-            <td>Spot 7</td>
+            <td id="t1lat">t1lat</td>
+            <td id="t1lng">t1lng</td>
+            <td id="t1ele">t1ele</td>
         </td>
         <tr>
             <td><b>Tracker 2</b>
-            <img src="http://i.imgur.com/SsaiSKT.png"/>
+            <img src="http://i.imgur.com/RiAJ9e2.png"/>
             </td>
-            <td>Spot 8</td>
-            <td>Spot 9</td>
-            <td>Space </td>
+            <td id="t2lat">t2lat</td>
+            <td id="t2lng">t2lng</td>
+            <td id="t2ele">t2ele</td>
         </tr>
         <tr>
             <td><b>Tracker 3</b>
-            <img src="http://i.imgur.com/75jUeoZ.png"/>
+            <img src="http://i.imgur.com/LYgrBwg.png"/>
             </td>
-            <td>Spot 11</td>
-            <td>Spot 12</td>
-            <td>Space</td>
+            <td id="t3lat">t3lat</td>
+            <td id="t3lng">t3lng</td>
+            <td id="t3ele">t3ele</td>
         </tr>
         <tr>
             <td><b>Beacon</b></td>
-            <td>Lat</td>
-            <td>Long</td>
-            <td>Elev</td>
+            <td id="blat">blat</td>
+            <td id="blng">blng</td>
+            <td id="bele">bele</td>
         </tr>
     </table>
 
