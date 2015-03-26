@@ -68,6 +68,32 @@ var antenna3 = new google.maps.Marker({
         icon: 'http://i.imgur.com/kN8u5cm.png'
     });
         
+var beaconInfo = new google.maps.InfoWindow({
+        content: "<font style=\"font-weight: bold\">True beacon position</font><br/>Loading"
+    });
+        
+var beaconGuessInfo = new google.maps.InfoWindow({
+        content: "<font style=\"font-weight: bold\">Guessed beacon position</font><br/>Loading"
+});
+        
+var beaconPolygonInfo = new google.maps.InfoWindow({
+       content: "<font style=\"font-weight: bold\">Approximate beacon area</font></br>"
+    });
+    
+var antenna1Info = new google.maps.InfoWindow({
+        content: "<font style=\"font-weight: bold\">Tracker one position</font><br/>Loading"
+    });
+    
+var antenna2Info = new google.maps.InfoWindow({
+        content: "<font style=\"font-weight: bold\">Tracker two position</font><br/>Loading"
+    });
+
+var antenna3Info = new google.maps.InfoWindow({
+        content: "<font style=\"font-weight: bold\">Tracker three position</font><br/>Loading"
+    });
+
+var controlText = document.createElement('div');
+        
 function showMap(json) {
     //console.log(json);
     data = JSON.parse(json.responseText);
@@ -85,71 +111,28 @@ function showMap(json) {
         controlUI.title = 'Dataset';
         controlDiv.appendChild(controlUI);
         
-        var controlText = document.createElement('div');
+        //var controlText = document.createElement('div');
         controlText.style.color = 'rgb(25,25,25)';
         controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
         controlText.style.fontSize = '16px';
         controlText.style.lineHeight = '18px';
         controlText.style.paddingLeft = '5px';
         controlText.style.paddingRight = '5px';
-        controlText.innerHTML = '<center><strong>WIPLS Locator Map<br /> <font style="font-size:80%">Last Update:</strong> ' + data.lastupdate + '</center>'/* +
-            '<div align="right"><font style="font-size:50%"><em>Click for details.</em></font></div>'*/;
+        controlText.innerHTML = '<center><strong>WIPLS Locator Map<br /> <font style="font-size:80%">Last Update:</strong> ' + data.lastupdate + '</center>';
         controlUI.appendChild(controlText);
         
-        beacon.setPosition(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
-    beaconGuess.setPosition(new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long));
-    antenna1.setPosition(new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long));
-    antenna2.setPosition(new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long));
-    antenna3.setPosition(new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long));
-    map.setCenter(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
-    beaconPolygon.setPath(
-        [new google.maps.LatLng(data.guessVector[0].lat, data.guessVector[0].long),
-         new google.maps.LatLng(data.guessVector[1].lat, data.guessVector[1].long),
-         new google.maps.LatLng(data.guessVector[2].lat, data.guessVector[2].long)]);
-        
-        prevupdate = data.lastupdate;
+        updateMap(data);
         
         google.maps.event.addDomListener(controlUI, 'click', function() {
             window.open("data.json");
         });
     }
-    
-    beaconCoords = new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long);
-    var beaconGuessCoords = new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long);
-    var beaconPolygonCoords = [
-        new google.maps.LatLng(data.guessVector[0].lat, data.guessVector[0].long),
-        new google.maps.LatLng(data.guessVector[1].lat, data.guessVector[1].long),
-        new google.maps.LatLng(data.guessVector[2].lat, data.guessVector[2].long)
-    ];
-    var antenna1Coords = new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long);
-    var antenna2Coords = new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long);
-    var antenna3Coords = new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long);
 
-    
-    
     var datasetTextboxDiv = document.createElement('div');
     var datasetTextbox = new DatasetTextbox(datasetTextboxDiv, map);
     
     datasetTextbox.index = 1;
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(datasetTextboxDiv);
-        
-    var distanceoff = google.maps.geometry.spherical.computeDistanceBetween(beaconCoords,beaconGuessCoords);
-
-    
-    
-    var beaconInfo = new google.maps.InfoWindow({
-        content: "<font style=\"font-weight: bold\">True beacon position</font><br/>"+
-        beaconCoords.lat().toFixed(4) + ", " + beaconCoords.lng().toFixed(4)
-    });
-    
-    
-    
-    var beaconGuessInfo = new google.maps.InfoWindow({
-        content: "<font style=\"font-weight: bold\">Guessed beacon position</font><br/>" +
-        beaconGuessCoords.lat().toFixed(4) + ", " + beaconGuessCoords.lng().toFixed(4) +
-        "<br/> Error: " + distanceoff.toFixed(4) + "m"
-    });
-    
     
     beacon.setMap(map);
     beaconGuess.setMap(map);
@@ -157,31 +140,6 @@ function showMap(json) {
     antenna1.setMap(map);
     antenna2.setMap(map);
     antenna3.setMap(map);
-    
-    var beaconPolygonInfo = new google.maps.InfoWindow({
-       content: "<font style=\"font-weight: bold\">Approximate beacon area</font></br>"
-    });
-    
-    
-    
-    var antenna1Info = new google.maps.InfoWindow({
-        content: "<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
-        antenna1Coords.lat().toFixed(4) + ", " + antenna1Coords.lng().toFixed(4)
-    });
-    
-    
-    
-    var antenna2Info = new google.maps.InfoWindow({
-        content: "<font style=\"font-weight: bold\">Tracker two position</font><br/>"+
-        antenna2Coords.lat().toFixed(4) + ", " + antenna2Coords.lng().toFixed(4)
-    });
-    
-
-    
-    var antenna3Info = new google.maps.InfoWindow({
-        content: "<font style=\"font-weight: bold\">Tracker three position</font><br/>"+
-        antenna3Coords.lat().toFixed(4) + ", " + antenna3Coords.lng().toFixed(4)
-    });
     
     google.maps.event.addListener(beacon, 'click', function() {
         beaconInfo.open(map, beacon); 
@@ -224,12 +182,8 @@ function refreshData() {
             
     });
 }
+        
 function updateMap(data) {
-    
-    
-    
-    
-    
     beacon.setPosition(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
     beaconGuess.setPosition(new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long));
     antenna1.setPosition(new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long));
@@ -241,6 +195,28 @@ function updateMap(data) {
          new google.maps.LatLng(data.guessVector[1].lat, data.guessVector[1].long),
          new google.maps.LatLng(data.guessVector[2].lat, data.guessVector[2].long)]);
     
+    beaconCoords = new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long);
+    var beaconGuessCoords = new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long);
+    var beaconPolygonCoords = [
+        new google.maps.LatLng(data.guessVector[0].lat, data.guessVector[0].long),
+        new google.maps.LatLng(data.guessVector[1].lat, data.guessVector[1].long),
+        new google.maps.LatLng(data.guessVector[2].lat, data.guessVector[2].long)
+    ];
+    var antenna1Coords = new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long);
+    var antenna2Coords = new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long);
+    var antenna3Coords = new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long);
+    
+    beaconInfo.setContent("<font style=\"font-weight: bold\">True beacon position</font><br/>"+
+        beaconCoords.lat().toFixed(4) + ", " + beaconCoords.lng().toFixed(4));
+    beaconGuessInfo.setContent("<font style=\"font-weight: bold\">Guessed beacon position</font><br/>" +
+        beaconGuessCoords.lat().toFixed(4) + ", " + beaconGuessCoords.lng().toFixed(4));
+    antenna1Info.setContent("<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
+        antenna1Coords.lat().toFixed(4) + ", " + antenna1Coords.lng().toFixed(4));
+    antenna2Info.setContent("<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
+        antenna2Coords.lat().toFixed(4) + ", " + antenna2Coords.lng().toFixed(4));
+    antenna3Info.setContent("<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
+        antenna3Coords.lat().toFixed(4) + ", " + antenna3Coords.lng().toFixed(4));
+    controlText.innerHTML = '<center><strong>WIPLS Locator Map<br /> <font style="font-size:80%">Last Update:</strong> ' + data.lastupdate + '</center>';
     prevupdate = data.lastupdate;
 }
 
