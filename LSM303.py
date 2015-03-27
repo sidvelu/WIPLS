@@ -116,6 +116,12 @@ class LSM303:
         pitch = -math.degrees(pitch)
         return pitch
         
+    def getAvgHeading(self):
+        sum = 0
+        for x in range(0, 100):
+            sum = sum + self.getHeading()
+            time.sleep(.01)
+        return sum/100
 
     def getHeading(self, offset=False):
         if offset == True:
