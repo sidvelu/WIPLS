@@ -25,6 +25,14 @@ function printmessage(message) {
     
     document.getElementById("errorbox").appendChild(node);
 }
+
+function arrow(up) {
+    if (up) {
+        return "<img src=\"http://i.imgur.com/LYgrBwg.png\">"
+    } else {
+        return "<img src=\"http://i.imgur.com/RiAJ9e2.png\">"
+    }
+}
         
 function initialize() {
     var json = $.getJSON("data.json").done(function () {showMap(json);});
@@ -250,6 +258,10 @@ function updateMap(data, center) {
     document.getElementById("blat").innerHTML = beaconGuessCoords.lat().toFixed(6);
     document.getElementById("blng").innerHTML = beaconGuessCoords.lng().toFixed(6);
     document.getElementById("bele").innerHTML = data.beaconGuessCoords.ele.toFixed(6);
+    
+    document.getElementById("t1status").innerHTML = data.antenna1Coords.status == 1 ? arrow(true) : arrow(false);
+    document.getElementById("t2status").innerHTML = data.antenna2Coords.status == 1 ? arrow(true) : arrow(false);
+    document.getElementById("t3status").innerHTML = data.antenna3Coords.status == 1 ? arrow(true) : arrow(false);
     
     if(data.showbeacon == "false") {
         //printmessage("hiding beacon");

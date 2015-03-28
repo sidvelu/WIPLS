@@ -8,16 +8,19 @@
         "ele": 0
     },
     "antenna1Coords": {
+        "status": 1,
         "lat": 42.337485,
         "long": -71.09112833333333,
         "ele": 0
     },
     "antenna2Coords": {
+        "status": 1,
         "lat": 42.337536666666665,
         "long": -71.089375,
         "ele": 0
     },
     "antenna3Coords": {
+        "status": 1,
         "lat": 42.33830833333333,
         "long": -71.08997166666667,
         "ele": 0
