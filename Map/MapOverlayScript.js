@@ -216,7 +216,7 @@ function updateMap(data, center) {
     antenna2.setPosition(new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long));
     antenna3.setPosition(new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long));
     if (center) {
-        map.setCenter(new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long));
+        map.setCenter(new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long));
     }
         beaconPolygon.setPath(
         [new google.maps.LatLng(data.guessVector[0].lat, data.guessVector[0].long),
