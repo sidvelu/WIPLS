@@ -16,8 +16,8 @@ if(len(sys.argv) <= 1):
 # Open serial port
 ser = serial.Serial(PORT, BAUD_RATE)
 
-if (ser.isOpen()):
-    print "its open"
+if (not ser.isOpen()):
+    print "ERROR"
 
 # Create API object
 #xbee = XBee(ser, escaped=True)
@@ -28,7 +28,7 @@ DEST_ADDR_LONG = b'\x00\x00\x00\x00\x00\x00\xFF\xFF'
 
 # Continuously read and print packets
 try:
-	print "send data"
+    #print "send data ", sys.argv[1]
 	digi.send("tx", dest_addr=DEST_ADDR_LONG, data=sys.argv[1])
 
 except KeyboardInterrupt:

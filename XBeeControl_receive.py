@@ -35,4 +35,5 @@ while True:
         break
         trackerData.close()
 
+trackerData.close()
 ser.close()

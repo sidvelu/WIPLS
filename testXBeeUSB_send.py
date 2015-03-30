@@ -2,8 +2,10 @@ import time
 from xbee import XBee
 import serial
 from digimesh import DigiMesh
+import sys
 
-PORT = '/dev/tty.usbserial-DA017XSD'
+#PORT = '/dev/tty.usbserial-DA017XSD'
+PORT = '/dev/ttyUSB0'
 #PORT = '/dev/tty.usbserial-DA017OQ8'
 BAUD_RATE = 9600
 
@@ -25,7 +27,7 @@ while True:
     try:
 	print "send data"
 #	ser.write("test\n")
-	digi.send("tx", dest_addr=DEST_ADDR_LONG, data='Hello from USB')
+	digi.send("tx", dest_addr=DEST_ADDR_LONG, data=sys.argv[1])
 
 #	xbee.send("at", frame='A', command='MY', parameter=None)
 #	xbee.at(frame_id='A', command='SH')
@@ -38,7 +40,7 @@ while True:
 #	ser.write("\x7E\x00\x10\x10\x01\x00\x00\x00\x00\x00\x00\xFF\xFF\xFF\xFE\x00\x00\x7A\x7A\xFF")
 
 #       xbee.tx_long_addr(frame='0x1', dest_addr=DEST_ADDR_LONG, data='AB')
-        time.sleep(.1)
+        time.sleep(10)
     except KeyboardInterrupt:
         break
 

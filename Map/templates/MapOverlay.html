@@ -29,9 +29,11 @@
     <br />
 
 <div class ="container 2">
-    <button type = "button" class="btn btn-success">Start</button>
-    <button type = "button" class="btn btn-danger">Stop</button>
-    <button type = "button" class="btn btn-warning">Shut Down</button>
+    <form action = "" method="post" value = "cscript" name = "scripts" onclick="return true;">
+        <input type = "submit" class="btn btn-success" value="Start" name="submit"/>
+        <input type = "submit" class="btn btn-danger" value="Stop" name="submit"/>
+        <input type = "submit" class="btn btn-warning" value="Kill" name="submit"/>
+    </form>
     
 </div>
 <br>
