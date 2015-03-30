@@ -1,4 +1,4 @@
-from sid_test_mag import LSM303
+from LSM303 import LSM303
 import time
 import random
 
@@ -18,10 +18,14 @@ my_list = [1] * 10 + [2] * 10 + [3] * 70 + [4] * 10
 Xtime = 0
 #Xtime = random.choice(my_list)
 Ptime = 1
+
+#Writing to file
+o_heading = open("headingData", "w")
+
 while True:
     Xtime = 0
     Ptime = 1
-    for x in range(0, 500):
+    for x in range(0, 500): #default value of 500
         Z = compass.getHeading()
         #Z = random.choice(my_list)
         #print "Measured:", Z
@@ -39,3 +43,5 @@ while True:
 
     print "New estimate:", Xupdate
     print "New error cov:", Pupdate, "\n"
+    o_heading.write(str(Xupdate) + "\n")
+
