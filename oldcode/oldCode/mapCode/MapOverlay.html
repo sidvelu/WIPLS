@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WIPLS</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <meta charset="utf-8">
+    <style>
+      html, body, #map-canvas {
+        height: 80%;
+        width: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      li {
+        list-style-type:none;
+      }
+    </style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAmexPtEq3x47gN0jvXbcsAv5GlZGSD02Q&libraries=geometry"></script>
+    <script src="MapOverlayScript.js"></script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+      </div>
+    <br />
+
+<div class ="container 2">
+    <button type = "button" class="btn btn-success">Start</button>
+    <button type = "button" class="btn btn-danger">Stop</button>
+    <button type = "button" class="btn btn-warning">Shut Down</button>
+    <input type"submit" name="submit" value="Do Something">
+    
+</div>
+<br>
+
+<div class="container">
+    <table class ="table" border = "2" style="width:100%%">
+
+        <tr class>
+            <td></td>
+            <td><b>Latitude (°)</b></td>
+            <td><b>Longitude (°)</b></td>
+            <td><b>Elevation (m)</b></td>
+        </tr>
+        <tr>
+            <td><b>Tracker 1</b>
+            <img src="http://i.imgur.com/LYgrBwg.png"/>
+            </td>
+            <td id="t1lat"></td>
+            <td id="t1lng"></td>
+            <td id="t1ele"></td>
+        </td>
+        <tr>
+            <td><b>Tracker 2</b>
+            <img src="http://i.imgur.com/RiAJ9e2.png"/>
+            </td>
+            <td id="t2lat"></td>
+            <td id="t2lng">Loading...</td>
+            <td id="t2ele"></td>
+        </tr>
+        <tr>
+            <td><b>Tracker 3</b>
+            <img src="http://i.imgur.com/LYgrBwg.png"/>
+            </td>
+            <td id="t3lat"></td>
+            <td id="t3lng"></td>
+            <td id="t3ele"></td>
+        </tr>
+        <tr>
+            <td><b>Beacon</b></td>
+            <td id="blat"></td>
+            <td id="blng"></td>
+            <td id="bele"></td>
+        </tr>
+    </table>
+
+    <table class ="table" border = "2" style = "width:100%">
+        <tr>
+            <td id="errorbox">
+            </td>
+        </tr>
+    </table>
+
+  </body>
+</html>
