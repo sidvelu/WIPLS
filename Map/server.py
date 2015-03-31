@@ -1,26 +1,38 @@
 from flask import Flask, render_template, request
 import os, logging
+from multiprocessing import Process
 app = Flask(__name__)
 
 #Surpress Messages
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
+class okayScript(Process):
+    def __init__(self):
+        Process.__init__(self)
+    def run(self):
+        execfile("XBeeControl_okay.py", globals(), locals())
+
+#Initialize Mag and CScript Procees
+okayXbee = okayScript()
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST' and request.form['submit'] == 'Start':
+        okayXbee.start()
         print "Control Script Launched"
-        os.system("python ../XBeeControl_send.py control")
+        os.system("python XBeeControl_send.py control")
         return render_template('/MapOverlay.html')
 
     if request.method == 'POST' and request.form['submit'] == 'Stop':
+        okayXbee.terminate()
         print "Stopping Control"
-        os.system("python ../XBeeControl_send.py stop")
+        os.system("python XBeeControl_send.py stop")
         return render_template('/MapOverlay.html')
 
     if request.method == 'POST' and request.form['submit'] == 'Kill':
         print "Killing Control"
-        os.system("python ../XBeeControl_send.py kill")
+        os.system("python XBeeControl_send.py kill")
         return render_template('/MapOverlay.html')
 
     elif request.method == 'GET':
