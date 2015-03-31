@@ -41,7 +41,7 @@ degrees = 180
 
 panTilt.stop()
 #align(panTilt)
-
+f = open('log_control.txt', 'w')
 # get setup options
 folderName = "run"
 #direction = raw_input("Enter direction (l or r): ")
@@ -58,7 +58,9 @@ except ValueError:
 '''
 datapoints = 10
 # get GPS coords
+f.write('about to get GPS\n')
 coords = GPS.getCoordinates()
+f.write('GPS coords function called\n')
 if coords != 0:
     xbee.send("coords: " + str(coords))
 else:
@@ -69,11 +71,12 @@ SLEEP_TIME = (degrees / datapoints) / RATE
 print str(SLEEP_TIME)
 
 # start loop to pan
-
+f.write('beginning control loop\n')
 for x in range(0,2):
     # get initial heading
     startHeading = getHeading(compass)
     print "Start heading: " + str(startHeading)
+    f.write('got heading\n')
     if (x == 0):
         direction = "r"
     elif (x == 1):
@@ -89,7 +92,10 @@ for x in range(0,2):
         
         time.sleep(SLEEP_TIME)
         panTilt.stop()
-        execfile("GNU_v3.py")
+        f.write('about to call GNU script\n')
+        execfile("/root/WIPLS/GNU_v3.py")
+        #os.system('/root/WIPLS/GNU_v3.py')
+        f.write("called GNU script\n")
         if(direction == 'l'):
             currHeading -= SLEEP_TIME * RATE
         elif(direction == 'r'):
@@ -106,6 +112,8 @@ for x in range(0,2):
 
         counter += 1
         print str(counter)
+#        if ('kill' in xbee.read()):  # found kill, exit this script
+#            exit()
 
     os.system("octave processData_new.m Data_" + folderName) # produces angle.txt file
 
@@ -115,4 +123,5 @@ for x in range(0,2):
     os.system('rm Data_' + folderName + '/*')
 
 panTilt.stop()
+f.write('end of control script\n')
 align(panTilt)

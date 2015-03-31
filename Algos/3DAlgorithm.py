@@ -1,10 +1,19 @@
-from math import sin, cos, radians, degrees
+from math import sin, cos, tan, radians, degrees
+import utm
 
 class Coordinates():
     def __init__(self, X, Y, Z):
         self.x = X
         self.y = Y
         self.z = Z
+
+class GPSCoordinates():
+    def __init__(self, lat, long, height):
+        self.lat = lat
+        self.long = long
+        self.height = height
+    def printCoordinates(self):
+        print "(" + str(self.lat) + ", " + str(self.long) + ") @ " + str(self.height)
 
 class BeaconMeasurements():
     def __init__(self, X, Y, Z, phi, theta):
@@ -16,44 +25,68 @@ class BeaconMeasurements():
 
 def outputJSON(A, B, C, ans):
     print '\t"beaconGuessCoords": {'
-    print '\t\t"lat": ' + str(ans.x) + ','
-    print '\t\t"long": ' + str(ans.y)
+    print '\t\t"lat": ' + str(ans.lat) + ','
+    print '\t\t"long": ' + str(ans.long) + ','
+    print '\t\t"ele": ' + str(ans.height)
     print '\t},'
 
     print '\t"guessVector": ['
     print '\t\t{'
     print '\t\t\t"lat": ' + str(A.x) + ','
-    print '\t\t\t"long": ' + str(A.y)
+    print '\t\t\t"long": ' + str(A.y) + ','
+    print '\t\t\t"ele": ' + str(A.z)
     print '\t\t},'
     print '\t\t{'
     print '\t\t\t"lat": ' + str(B.x) + ','
-    print '\t\t\t"long": ' + str(B.y)
+    print '\t\t\t"long": ' + str(B.y) + ','
+    print '\t\t\t"ele": ' + str(B.z)
     print '\t\t},'
     print '\t\t{'
     print '\t\t\t"lat": ' + str(C.x) + ','
-    print '\t\t\t"long": ' + str(C.y)
+    print '\t\t\t"long": ' + str(C.y) + ','
+    print '\t\t\t"ele": ' + str(C.z)
     print '\t\t}'
     print '\t]'
 
+def start(lat1, long1, he1, phi1, theta1, lat2, long2, he2, phi2, theta2, lat3, long3, he3, phi3, theta3):
+    lat1 = float(lat1)
+    long1 = float(long1)
+    he1 = float(he1)
+    phi1 = float(phi1)
+    theta1 = float(theta1)
+    lat2 = float(lat2)
+    long2 = float(long2)
+    he2 = float(he2)
+    phi2 = float(phi2)
+    theta2 = float(theta2)
+    lat3 = float(lat3)
+    long3 = float(long3)
+    he3 = float(he3)
+    phi3 = float(phi3)
+    theta3 = float(theta3)
 
-def triangulate(A, B, C):
-    assert isinstance(A, BeaconMeasurements)
-    assert isinstance(B, BeaconMeasurements)
-    assert isinstance(C, BeaconMeasurements)
+
+    GPS1 = GPSCoordinates(lat1, long1, he1)
+    GPS2 = GPSCoordinates(lat2, long2, he2)
+    GPS3 = GPSCoordinates(lat3, long3, he3)
+
+    Bea1 = BeaconMeasurements(GPS1.long, GPS1.lat, GPS1.height, phi1, theta1)
+    Bea2 = BeaconMeasurements(GPS2.long, GPS2.lat, GPS2.height, phi2, theta2)
+    Bea3 = BeaconMeasurements(GPS3.long, GPS3.lat, GPS3.height, phi3, theta3)
 
     #print "getUnknownPosition A,B"
-    pos1 = getUnknownPosition(A, B)
+    pos1 = getUnknownPosition(Bea1, Bea2)
     print "Corner 1: " + str(pos1.x) + " " + str(pos1.y) + " " + str(pos1.z)
 
     #print "getUnknownPosition C,A"
-    pos2 = getUnknownPosition(C, A)
+    pos2 = getUnknownPosition(Bea3, Bea1)
     print "Corner 2: " + str(pos2.x) + " " + str(pos2.y) + " " + str(pos2.z)
 
     #print "getUnknownPosition B,C"
-    pos3 = getUnknownPosition(B, C)
+    pos3 = getUnknownPosition(Bea2, Bea3)
     print "Corner 3: " + str(pos3.x) + " " + str(pos3.y) + " " + str(pos3.z)
 
-    averagePosition = Coordinates((pos1.x + pos2.x + pos3.x)/3, (pos1.y + pos2.y + pos3.y)/3, (pos1.z + pos2.z + pos3.z)/3)
+    averagePosition = GPSCoordinates((pos1.x + pos2.x + pos3.x)/3.0, (pos1.y + pos2.y + pos3.y)/3.0, (pos1.z + pos2.z + pos3.z)/3.0)
 
     outputJSON(pos1, pos2, pos3, averagePosition)
 
@@ -68,172 +101,26 @@ def getUnknownPosition(A, B):
     if (A.theta == B.theta and (A.phi == B.phi or A.phi + radians(180) == B.phi)):
         print "Incompatible angles (same angle or off by 180 degrees)"
 
-    elif (sin(A.phi) * cos(B.phi) * cos(B.theta)) != (cos(A.phi) * sin(B.phi) * cos(B.theta)):
-        try:
-            #print "Trying XY"
+    dB = (cos(A.phi)*(B.y-A.y)-sin(A.phi)*(B.x-A.x)) / (sin(A.phi) * cos(B.phi) - sin(B.phi) * cos(A.phi))
+    dA = (B.x - A.x + cos(B.phi) * dB) / cos(A.phi)
 
-            rB = (cos(A.phi) * (B.y-A.y) - (sin(A.phi) * (B.x-A.x)))/\
-                 (cos(B.theta) * (sin(A.phi) * cos(B.phi) - cos(A.phi) * sin(B.phi)))
-            rA = (B.x - A.x + cos(B.phi) * cos(B.theta) * rB)/(cos(A.phi) * cos(A.theta))
-
-            result.x = A.x + cos(A.theta)*cos(A.phi) * rA
-            result.y = A.y + cos(A.theta)*sin(A.phi) * rA
-            result.z = A.z + sin(A.theta) * rA
-            #print "XY success"
-        except ZeroDivisionError:
-            print "XY: Division by Zero"
-
-    elif cos(B.phi) * cos(B.theta) * sin(A.theta) != cos(A.phi) * cos(A.theta) * sin(B.theta):
-        try:
-            #print "Trying XZ"
-
-            rB = ((cos(A.phi) * cos(A.theta)) * (B.z-A.z) - sin(A.theta) * (B.x-A.x))/\
-                (cos(B.phi) * cos(B.theta) * sin(A.theta) - cos(A.phi) * cos(A.theta) * sin(B.theta))
-            rA = (B.x - A.x + cos(B.phi) * cos(B.theta) * rB)/(cos(A.phi) * cos(A.theta))
-
-            result.x = A.x + cos(A.theta)*cos(A.phi) * rA
-            result.y = A.y + cos(A.theta)*sin(A.phi) * rA
-            result.z = A.z + sin(A.theta) * rA
-            #print "XZ success"
-        except:
-            print "XZ: Division by Zero"
-
-    elif sin(A.theta) * sin(B.phi) * cos(B.theta) != sin(A.phi) * cos(A.theta) * sin(B.theta):
-        try:
-            #print "Trying YZ"
-
-            rB = ((sin(A.phi) * cos(A.theta)) * (B.z-A.z) - sin(A.theta) * (B.y-A.y))/\
-                 (sin(A.theta) * sin(B.phi) * cos(B.theta) - sin(A.phi) * cos(A.theta) * sin(B.theta))
-            rA = (B.z - A.z + sin(B.theta) * rB)/sin(A.theta)
-
-            result.x = A.x + cos(A.theta)*cos(A.phi) * rA
-            result.y = A.y + cos(A.theta)*sin(A.phi) * rA
-            result.z = A.z + sin(A.theta) * rA
-            #print "YZ success"
-        except ZeroDivisionError:
-            print "YZ: Division by Zero"
-
-    else:
-        print "Fell through all cases: investigate"
+    result.y = A.x + cos(A.phi) * dA
+    result.x = A.y + sin(A.phi) * dA
+    result.z = (dA * tan(A.theta) + dB * tan(B.theta)) / 2.0
 
     return result
 
-# Triangulate
+# Flagpole
+# start(42.337435,-71.091525,0,175,0,
+#      42.33765,-71.089643333333,0,254,0,
+#      42.33734,-71.09050666667,0,190,0)
 
-# Enter info here
-# Flagpole data
-# Beacon1lat = 42.337435
-# Beacon1long = -71.091525
-# Beacon1angle = 175
-#
-# Beacon2lat = 42.33765
-# Beacon2long = -71.08964333333333
-# Beacon2angle = 254
-#
-# Beacon3lat = 42.33734
-# Beacon3long = -71.09050666666667
-# Beacon3angle = 190
+# DDs
+# start(42.337485,-71.09112833333333,0,190,0,
+#     42.337536666666665,-71.089375,0,270,0,
+#     42.33830833333333,-71.08997166666667,0,203,0)
 
-# DDs data
-Beacon1lat = 42.337485
-Beacon1long = -71.09112833333333
-Beacon1angle = 190.
-
-Beacon2lat = 42.337536666666665
-Beacon2long = -71.089375
-Beacon2angle = 270.
-
-Beacon3lat = 42.33830833333333
-Beacon3long = -71.08997166666667
-Beacon3angle = 203.
-
-# Don't edit this part
-Beacon1x = float(Beacon1lat)
-Beacon1y = float(Beacon1long)
-Beacon1z = float(0)
-Beacon1phi = float(Beacon1angle)
-Beacon1theta = float(0)
-
-Beacon2x = float(Beacon2lat)
-Beacon2y = float(Beacon2long)
-Beacon2z = float(0)
-Beacon2phi = float(Beacon2angle)
-Beacon2theta = float(0)
-
-Beacon3x = float(Beacon3lat)
-Beacon3y = float(Beacon3long)
-Beacon3z = float(0)
-Beacon3phi = float(Beacon3angle)
-Beacon3theta = float(0)
-
-tracker1 = BeaconMeasurements(Beacon1x, Beacon1y, Beacon1z, Beacon1phi, Beacon1theta)
-tracker2 = BeaconMeasurements(Beacon2x, Beacon2y, Beacon2z, Beacon2phi, Beacon2theta)
-tracker3 = BeaconMeasurements(Beacon3x, Beacon3y, Beacon3z, Beacon3phi, Beacon3theta)
-
-answer = triangulate(tracker1, tracker2, tracker3)
-print "Guess: " + str(answer.x) + ", " + str(answer.y) + ", " + str(answer.z) + "\n"
-
-# Findunknownposition test case
-# Solution is at 0, 1, 2
-# One tracker at 1, 1, 1 with phi 180 and theta 45 (45degrees between -x and +z)
-# Other tracker at 0, 2, 1 with phi 270 and theta 45 (45degrees between -y and +z)
-
-# phi should be in [0, 360)
-# theta should be in [0, 90] (realistically it won't reach 90 because of our pan/tilt limitations)
-
-# Beacon1x = 1
-# Beacon1y = 1
-# Beacon1z = 1
-# Beacon1phi = 180
-# Beacon1theta = 45
-#
-# Beacon2x = 0
-# Beacon2y = 2
-# Beacon2z = 1
-# Beacon2phi = 270
-# Beacon2theta = 45
-#
-# a_measure = BeaconMeasurements(Beacon1x, Beacon1y, Beacon1z, Beacon1phi, Beacon1theta)
-# b_measure = BeaconMeasurements(Beacon2x, Beacon2y, Beacon2z, Beacon2phi, Beacon2theta)
-#
-# print "Beacon 1 coordinates: " + str(Beacon1x) + ", " + str(Beacon1y) + ", " + str(Beacon1z)
-# print "Beacon 1 measurements: Phi (x/y): " + str(Beacon1phi) + ", Theta (xy/z): " + str(Beacon1theta)
-# print "Beacon 2 coordinates: " + str(Beacon2x) + ", " + str(Beacon2y) + ", " + str(Beacon2z)
-# print "Beacon 2 measurements: Phi (x/y): " + str(Beacon2phi) + ", Theta (xy/z): " + str(Beacon2theta)
-#
-# ans = getUnknownPosition(a_measure, b_measure)
-# print "Solution coordinates: " + str(ans.x) + ", " + str(ans.y) + ", " + str(ans.z)
-#
-# print ""
-# testnumber = 0
-
-# Tests
-# testnumber += 1
-# a_measure = BeaconMeasurements(0, 0, 0, 0, 0)
-# b_measure = BeaconMeasurements(1, 1, 0, 270, 0)
-# true_coordinates = Coordinates(1, 0, 0)
-# coordinates = getUnknownPosition(a_measure, b_measure)
-# print "Test " + str(testnumber) + ": " + str(coordinates.x) + ", " + str(coordinates.y) + ", " + str(coordinates.z)
-# assert abs(coordinates.x - true_coordinates.x) < .0001
-# assert abs(coordinates.y - true_coordinates.y) < .0001
-# assert abs(coordinates.z - true_coordinates.z) < .0001
-#
-# testnumber += 1
-# a_measure = BeaconMeasurements(0, 0, 0, 0, 0)
-# b_measure = BeaconMeasurements(5, 0, 0, 180, 0)
-# true_coordinates = Coordinates(None, None, None)
-# coordinates = getUnknownPosition(a_measure, b_measure)
-# print "Test " + str(testnumber) + ": " + str(coordinates.x) + ", " + str(coordinates.y) + ", " + str(coordinates.z)
-# assert coordinates.x is None
-# assert coordinates.y is None
-# assert coordinates.z is None
-#
-# testnumber += 1
-# a_measure = BeaconMeasurements(1, 1, 1, 180, 45)
-# b_measure = BeaconMeasurements(0, 2, 1, 270, 45)
-# true_coordinates = Coordinates(0, 1, 2)
-# coordinates = getUnknownPosition(a_measure, b_measure)
-# print "Test " + str(testnumber) + ": " + str(coordinates.x) + ", " + str(coordinates.y) + ", " + str(coordinates.z)
-# assert abs(coordinates.x - true_coordinates.x) < .0001
-# assert abs(coordinates.y - true_coordinates.y) < .0001
-# assert abs(coordinates.z - true_coordinates.z) < .0001
+# Ideal data
+start(42.337545,-71.089335,0.0,203.0,0.0,
+      42.337414,-71.090456,0.0,265.0,0.0,
+      42.336946,-71.091264,0.0,12.0,0.0)

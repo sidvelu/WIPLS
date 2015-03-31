@@ -1,6 +1,6 @@
 {
-    "lastupdate": "OODFest",
-    "dataset": "DDs 3/2/15",
+    "lastupdate": "12:31",
+    "dataset": "n/a",
     "showbeacon": "false",
     "beaconCoords": {
         "lat": 42.337512,
@@ -8,40 +8,43 @@
         "ele": 0
     },
     "antenna1Coords": {
-        "lat": 42.337485,
-        "long": -71.09112833333333,
+        "status": 1,
+        "lat": 42.337545,
+        "long": -71.089335,
         "ele": 0
     },
     "antenna2Coords": {
-        "lat": 42.337536666666665,
-        "long": -71.089375,
+        "status": 1,
+        "lat": 42.337414,
+        "long": -71.090456,
         "ele": 0
     },
     "antenna3Coords": {
-        "lat": 42.33830833333333,
-        "long": -71.08997166666667,
+        "status": 1,
+        "lat": 42.336946,
+        "long": -71.091264,
         "ele": 0
     },
-    "beaconGuessCoords": {
-        "lat": 42.3364351682,
-        "long": -71.0911255141,
-        "ele": 0
-    },
-    "guessVector": [
-        {
-            "lat": 42.3375366667,
-            "long": -71.0911192231,
-            "ele": 0
-        },
-        {
-            "lat": 42.3342321713,
-            "long": -71.0917018948,
-            "ele": 0
-        },
-        {
-            "lat": 42.3375366667,
-            "long": -71.0905554243,
-            "ele": 0
+	"beaconGuessCoords": {
+		"lat": 42.3371114899,
+		"long": -71.0903988314,
+		"ele": 0.0
+	},
+	"guessVector": [
+		{
+			"lat": 42.3370558637,
+			"long": -71.0904873329,
+			"ele": 0.0
+		},
+		{
+			"lat": 42.337166474,
+			"long": -71.0902267514,
+			"ele": 0.0
+		},
+		{
+			"lat": 42.3371121321,
+			"long": -71.09048241,
+			"ele": 0.0
 		}
 	]
 }
