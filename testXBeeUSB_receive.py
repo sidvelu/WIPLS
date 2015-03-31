@@ -2,8 +2,8 @@ from xbee import XBee
 import serial
 from digimesh import DigiMesh
 
-PORT = '/dev/tty.usbserial-DA017OQ8'
-#PORT = '/dev/tty.usbserial-DA017XSD'
+#PORT = '/dev/tty.usbserial-DA017OQ8'
+PORT = '/dev/tty.usbserial-DA017XSD'
 BAUD_RATE = 9600
 
 # Open serial port
@@ -26,6 +26,9 @@ while True:
 #	response = ser.read(10)
 #       print response
 	print response['data']
+        if 'kill' in response['data']:
+            print "found kill"
+            exit()
     except KeyboardInterrupt:
         break
 
