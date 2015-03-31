@@ -7,6 +7,8 @@ from multiprocessing import Process
 import signal
 import sys
 from XBee import XBee
+from controlScript_class import control
+import subprocess
 
 class magProcess(Process):
     def __init__(self):
@@ -18,7 +20,8 @@ class controlProcess(Process):
     def __init__(self):
         Process.__init__(self)
     def run(self):
-        execfile("controlScript_timing_Xbee.py", globals(), locals())
+        #execfile("/root/WIPLS/controlScript_timing_Xbee.py")
+        subprocess.call(['python', '/root/WIPLS/controlScript_timing_Xbee.py'])
 
 #Create XBee Class
 xbee = XBee()
@@ -29,6 +32,7 @@ c = controlProcess()
 
 
 def kill():
+    return
     try:
         os.kill(m.pid, signal.SIGKILL)
         #os.kill(m.pid, 9)
@@ -40,6 +44,7 @@ def kill():
         print "none"
 
 
+f = open('log.txt', 'w')
 
 # Continuously read and print packets
 while True:
@@ -53,6 +58,7 @@ while True:
             kill()
         elif response == 'kill':
             kill()
+            f.write('process killed\n')
             sys.exit(0)
         elif response == 'mag':
             try:
@@ -64,14 +70,20 @@ while True:
             #params = response.split(',')
             #First param datapoints, second degrees
             #sys.argv = [params[1]]
-            os.system("python controlScript_timing_Xbee.py")
+            #os.system("python controlScript_timing_Xbee.py")
+            f.write('in control if\n')
+            execfile("/root/WIPLS/controlScript_timing_Xbee.py")
             '''
             try:
+                #control = control()
+                #control.start()
                 c.start()
+                f.write('control process started\n')
             except:
                 c = controlProcess()
                 c.start()
-            '''    
+                f.write('control process except\n')
+            ''' 
 
     except KeyboardInterrupt:
         break

@@ -4,6 +4,8 @@ from digimesh import DigiMesh
 
 #PORT = '/dev/tty.usbserial-DA017OQ8'
 PORT = '/dev/tty.usbserial-DA017XSD'
+#for linux
+#PORT = '/dev/ttyUSB0'
 BAUD_RATE = 9600
 
 # Open serial port

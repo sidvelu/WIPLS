@@ -4,3 +4,8 @@ sudo crontab -e
 @reboot python %DirectLinkToPythonFile% &
 
 ps aux | grep .py
+
+
+setup octave
+
+setup xbee environment variable

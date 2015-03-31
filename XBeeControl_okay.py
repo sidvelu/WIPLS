@@ -27,12 +27,13 @@ digi = DigiMesh(ser, escaped=True)
 DEST_ADDR_LONG = b'\x00\x00\x00\x00\x00\x00\xFF\xFF'
 
 # Continuously read and print packets
-try:
-    #print "send data ", sys.argv[1]
-	digi.send("tx", dest_addr=DEST_ADDR_LONG, data=sys.argv[1])
 
-except KeyboardInterrupt:
-    print "error"
+while True:
+    try:
+        #print "send data ", sys.argv[1]
+	    digi.send("tx", dest_addr=DEST_ADDR_LONG, data="OKAY")
+    except KeyboardInterrupt:
+        print "error"
 
 ser.close()
 
