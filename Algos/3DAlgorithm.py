@@ -112,7 +112,7 @@ def start(lat1, long1, he1, phi1, theta1, lat2, long2, he2, phi2, theta2, lat3, 
         print "Corner 3: " + str(pos3.x) + " " + str(pos3.y) + " " + str(pos3.z)
 
 
-    averagePosition = Coordinates((pos1.x + pos2.x + pos3.x)/3, (pos1.y + pos2.y + pos3.y)/3, (pos1.z + pos2.z + pos3.z)/3)
+    averagePosition = Coordinates((pos1.x + pos2.x + pos3.x)/3.0, (pos1.y + pos2.y + pos3.y)/3.0, (pos1.z + pos2.z + pos3.z)/3.0)
 
     UTM1f = UTMCoordinates(pos1.x, pos1.y, UTM1.zonenum, UTM1.zonelet, pos1.z)
     UTM2f = UTMCoordinates(pos2.x, pos2.y, UTM2.zonenum, UTM2.zonelet, pos2.z)
@@ -137,12 +137,12 @@ def getUnknownPosition(A, B):
         print "Incompatible angles (same angle or off by 180 degrees)"
 
     dB = (cos(A.phi)*(B.y-A.y)-sin(A.phi)*(B.x-A.x)) /\
-         sin(A.phi) * cos(B.phi) - sin(B.phi) * cos(A.phi)
+         (sin(A.phi) * cos(B.phi) - sin(B.phi) * cos(A.phi))
     dA = (B.x - A.x + cos(B.phi) * dB) / cos(A.phi)
 
     result.x = A.x + cos(A.phi) * dA
     result.y = A.y + sin(A.phi) * dA
-    result.z = (dA * tan(A.theta) + dB * tan(B.theta)) / 2
+    result.z = (dA * tan(A.theta) + dB * tan(B.theta)) / 2.0
 
     return result
 

@@ -28,9 +28,9 @@ function printmessage(message) {
 
 function arrow(up) {
     if (up) {
-        return "<img src=\"http://i.imgur.com/LYgrBwg.png\">"
+        return "<img src=\"http://i.imgur.com/KC9vWSc.png\">"
     } else {
-        return "<img src=\"http://i.imgur.com/RiAJ9e2.png\">"
+        return "<img src=\"http://i.imgur.com/qazLBjq.png\">"
     }
 }
         
@@ -240,9 +240,9 @@ function updateMap(data, center) {
         beaconGuessCoords.lat().toFixed(4) + ", " + beaconGuessCoords.lng().toFixed(4));
     antenna1Info.setContent("<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
         antenna1Coords.lat().toFixed(4) + ", " + antenna1Coords.lng().toFixed(4));
-    antenna2Info.setContent("<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
+    antenna2Info.setContent("<font style=\"font-weight: bold\">Tracker two position</font><br/>"+
         antenna2Coords.lat().toFixed(4) + ", " + antenna2Coords.lng().toFixed(4));
-    antenna3Info.setContent("<font style=\"font-weight: bold\">Tracker one position</font><br/>"+
+    antenna3Info.setContent("<font style=\"font-weight: bold\">Tracker three position</font><br/>"+
         antenna3Coords.lat().toFixed(4) + ", " + antenna3Coords.lng().toFixed(4));
     controlText.innerHTML = '<center><strong>WIPLS Locator Map<br /> <font style="font-size:80%">Last Update:</strong> ' + data.lastupdate + '</center>';
     
