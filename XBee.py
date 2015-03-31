@@ -6,13 +6,6 @@ import os
 from PanTilt import PanTilt
 
 class XBee:
-    def print_data(self, data):
-        print data
-        if ('kill' in data['data']):  # found kill, exit
-            print "KILLING"
-            self.tilt.stop()
-            os.system('pkill -1 -f controlScript_timing_Xbee.py')
-
     def __init__(self):
         UART.setup("UART2")
         PORT = '/dev/ttyO2'
@@ -20,10 +13,12 @@ class XBee:
         self.tilt = PanTilt()
         ser = serial.Serial(PORT, BAUD_RATE)
 
+        ser.close()
+        ser.open()
         if (ser.isOpen()):
             print "its open"
 
-        self.digi = DigiMesh(ser, escaped=True, callback=self.print_data)
+        self.digi = DigiMesh(ser, escaped=True)
         ID_file = open('/root/WIPLS/XBEE_ID', 'r')
         self.XBeeNum = str(ID_file.read())
         ID_file.close()
