@@ -7,8 +7,8 @@ import sys
 if "linux" in sys.platform:
     PORT = '/dev/ttyUSB0'
 elif "darwin" in sys.platform:
-    PORT = '/dev/tty.usbserial-DA017XSD'
-    #PORT = '/dev/tty.usbserial-DA017OQ8'
+    #PORT = '/dev/tty.usbserial-DA017XSD'
+    PORT = '/dev/tty.usbserial-DA017OQ8'
 
 BAUD_RATE = 9600
 
