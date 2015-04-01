@@ -6,6 +6,8 @@ sudo python XBeeControl_receive.py &
 echo Starting Server
 sudo python Map/server.py &
 
+xdg-open http://127.0.0.1:8080/
+
 read userInput
 
 echo killing scripts
