@@ -1,4 +1,4 @@
-from math import sin, cos, tan, radians, degrees
+from math import sin, cos, tan, radians
 import utm
 
 class Coordinates():
@@ -84,32 +84,32 @@ def start(lat1, long1, he1, phi1, theta1, lat2, long2, he2, phi2, theta2, lat3, 
 
     #print "getUnknownPosition A,B"
     pos1 = getUnknownPosition(Bea1, Bea2)
-    print "Corner 1: " + str(pos1.x) + " " + str(pos1.y) + " " + str(pos1.z)
+    #print "Corner 1: " + str(pos1.x) + " " + str(pos1.y) + " " + str(pos1.z)
 
     if pos1.x > max or pos1.x < min or pos1.y > max or pos1.y < min or pos1.z > max or pos1.z < min:
 
         pos1 = getUnknownPosition(Bea2, Bea1)
-        print "Corner 1: " + str(pos1.x) + " " + str(pos1.y) + " " + str(pos1.z)
+        #print "Corner 1: " + str(pos1.x) + " " + str(pos1.y) + " " + str(pos1.z)
 
 
     #print "getUnknownPosition C,A"
     pos2 = getUnknownPosition(Bea3, Bea1)
-    print "Corner 2: " + str(pos2.x) + " " + str(pos2.y) + " " + str(pos2.z)
+    #print "Corner 2: " + str(pos2.x) + " " + str(pos2.y) + " " + str(pos2.z)
 
     if pos2.x > max or pos2.x < min or pos2.y > max or pos2.y < min or pos2.z > max or pos2.z < min:
 
         pos2 = getUnknownPosition(Bea1, Bea3)
-        print "Corner 2: " + str(pos2.x) + " " + str(pos2.y) + " " + str(pos2.z)
+        #print "Corner 2: " + str(pos2.x) + " " + str(pos2.y) + " " + str(pos2.z)
 
 
     #print "getUnknownPosition B,C"
     pos3 = getUnknownPosition(Bea2, Bea3)
-    print "Corner 3: " + str(pos3.x) + " " + str(pos3.y) + " " + str(pos3.z)
+    #print "Corner 3: " + str(pos3.x) + " " + str(pos3.y) + " " + str(pos3.z)
 
     if pos3.x > max or pos3.x < min or pos3.y > max or pos3.y < min or pos3.z > max or pos3.z < min:
 
         pos3 = getUnknownPosition(Bea3, Bea2)
-        print "Corner 3: " + str(pos3.x) + " " + str(pos3.y) + " " + str(pos3.z)
+        #print "Corner 3: " + str(pos3.x) + " " + str(pos3.y) + " " + str(pos3.z)
 
 
     averagePosition = Coordinates((pos1.x + pos2.x + pos3.x)/3.0, (pos1.y + pos2.y + pos3.y)/3.0, (pos1.z + pos2.z + pos3.z)/3.0)
@@ -123,9 +123,9 @@ def start(lat1, long1, he1, phi1, theta1, lat2, long2, he2, phi2, theta2, lat3, 
     GPS3f = UTM3f.toGPS()
     GPSAvg = UTMAvg.toGPS()
 
-    outputJSON(GPS1f, GPS2f, GPS3f, GPSAvg)
-
-    return averagePosition
+    #outputJSON(GPS1f, GPS2f, GPS3f, GPSAvg)
+    #print (GPS1f, GPS2f, GPS3f, GPSAvg)
+    return (GPS1f, GPS2f, GPS3f, GPSAvg)
 
 def getUnknownPosition(A, B):
     assert isinstance(A, BeaconMeasurements)
@@ -157,6 +157,6 @@ def getUnknownPosition(A, B):
 #     42.33830833333333,-71.08997166666667,0,203,0)
 
 # Ideal data
-start(42.337545,-71.089335,0,215,0,
-      42.337414,-71.090456,0,265,0,
-      42.336946,-71.091264,0,15,0)
+# start(42.337545,-71.089335,0,215,0,
+#       42.337414,-71.090456,0,265,0,
+#       42.336946,-71.091264,0,15,0)

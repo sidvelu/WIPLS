@@ -22,7 +22,7 @@ if (ser.isOpen()):
 #xbee = XBee(ser, escaped=True)
 digi = DigiMesh(ser, escaped=True)
 
-trackerData = open('trackerData.dat' , 'w')
+trackerData = open('./Map/templates/data.json' , 'w')
 
 
 # Continuously read and print packets
