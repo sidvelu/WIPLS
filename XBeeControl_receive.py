@@ -3,10 +3,12 @@ import serial
 from digimesh import DigiMesh
 from datetime import datetime
 
-#PORT = '/dev/tty.usbserial-DA017OQ8'
-#PORT = '/dev/tty.usbserial-DA017XSD'
-#for linux
-PORT = '/dev/ttyUSB0'
+if "linux" in sys.platform:
+    PORT = '/dev/ttyUSB0'
+elif "darwin" in sys.platform:
+    PORT = '/dev/tty.usbserial-DA017XSD'
+    #PORT = '/dev/tty.usbserial-DA017OQ8'
+
 BAUD_RATE = 9600
 
 # Open serial port

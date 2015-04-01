@@ -4,9 +4,12 @@ import serial
 from digimesh import DigiMesh
 import sys
 
-#PORT = '/dev/tty.usbserial-DA017XSD'
-PORT = '/dev/ttyUSB0'
-#PORT = '/dev/tty.usbserial-DA017OQ8'
+if "linux" in sys.platform:
+    PORT = '/dev/ttyUSB0'
+elif "darwin" in sys.platform:
+    PORT = '/dev/tty.usbserial-DA017XSD'
+    #PORT = '/dev/tty.usbserial-DA017OQ8'
+
 BAUD_RATE = 9600
 
 if(len(sys.argv) <= 1):
