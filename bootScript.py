@@ -25,7 +25,8 @@ while True:
             kill()
         elif response == 'kill':
             kill()
-            sys.exit(0)
+            #sys.exit(0)
+            os.system("shutdown -h now")
         elif response == 'control':
             #params = response.split(',')
             #First param datapoints, second degrees
