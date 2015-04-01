@@ -6,7 +6,7 @@ sudo python XBeeControl_receive.py &
 echo Starting Server
 sudo python Map/server.py &
 
-open http://127.0.0.1:8080/
+xdg-open http://127.0.0.1:8080/
 
 read userInput
 

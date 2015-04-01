@@ -2,6 +2,7 @@ from xbee import XBee
 import serial
 from digimesh import DigiMesh
 from datetime import datetime
+import sys
 
 if "linux" in sys.platform:
     PORT = '/dev/ttyUSB0'
