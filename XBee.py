@@ -20,7 +20,7 @@ class XBee:
 
         self.digi = DigiMesh(ser, escaped=True)
         ID_file = open('/root/WIPLS/XBEE_ID', 'r')
-        self.XBeeNum = str(ID_file.read())
+        self.XBeeNum = str(ID_file.read()).strip()
         ID_file.close()
         print "XBEE NUM: ", self.XBeeNum
         
