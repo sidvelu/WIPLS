@@ -1,0 +1,9 @@
+1, strong angle: 215
+1, coords: (42.337545,-71.089335)
+1, strong tilt: 0
+2, strong angle: 265
+2, coords: (42.337414,-71.090456)
+2, strong tilt: 0
+3, strong angle: 15
+3, coords: (42.336946,-71.091264)
+3, strong tilt: 0
