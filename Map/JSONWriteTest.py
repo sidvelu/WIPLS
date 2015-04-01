@@ -1,14 +1,17 @@
 import json
 from datetime import datetime
 
-with open('data2.json') as data_file:
+with open('Map/templates/data.json') as data_file:
     data = json.load(data_file)
 
-input = open('fakeinput.txt')
+input = open('Map/fakeinput.txt')
 
 tracker = -1
 for line in input:
-    data["lastupdate"] = datetime.now().strftime("%m/%d %H:%M")
+    if (line == ""):
+        continue
+
+    data["lastupdate"] = datetime.now().strftime("%m/%d %H:%M:%S")
 
     #print line
     if line[0] == "1":
@@ -42,9 +45,9 @@ for line in input:
         print "Input parse failed"
         continue
 
-    import TriangulationAlgorithm
+    import Map.TriangulationAlgorithm
     try:
-        Corner1, Corner2, Corner3, Avgguess = TriangulationAlgorithm.start(
+        Corner1, Corner2, Corner3, Avgguess = Map.TriangulationAlgorithm.start(
             data["antenna1Coords"]["lat"],
             data["antenna1Coords"]["long"],
             data["antenna1Coords"]["ele"],
@@ -84,5 +87,5 @@ for line in input:
         print e.message
         continue
 
-with open('data2.json', 'w') as data_file2:
+with open('Map/templates/data.json', 'w') as data_file2:
     json.dump(data, data_file2, separators=(',', ': '), indent=4)

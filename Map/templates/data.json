@@ -1,50 +1,55 @@
 {
-    "lastupdate": "12:54",
-    "dataset": "n/a",
+    "lastupdate": "04/01 18:20:47",
+    "antenna2Coords": {
+        "status": 1,
+        "phi": 350.0,
+        "long": -71.090456,
+        "ele": 0,
+        "lat": 42.337414,
+        "theta": 0.0
+    },
+    "antenna1Coords": {
+        "status": 1,
+        "phi": 30.0,
+        "long": -71.089335,
+        "ele": 0,
+        "lat": 42.337545,
+        "theta": 0.0
+    },
+    "beaconGuessCoords": {
+        "lat": 42.33738252397232,
+        "long": -71.09199712041173,
+        "ele": 0.0
+    },
+    "antenna3Coords": {
+        "status": 1,
+        "phi": 160.0,
+        "long": -71.091264,
+        "ele": 0,
+        "lat": 42.336946,
+        "theta": 0.0
+    },
     "showbeacon": "false",
     "beaconCoords": {
         "lat": 42.337512,
         "long": -71.090124,
         "ele": 0
     },
-    "antenna1Coords": {
-        "status": 1,
-        "lat": 42.337545,
-        "long": -71.089335,
-        "ele": 0
-    },
-    "antenna2Coords": {
-        "status": 1,
-        "lat": 42.337414,
-        "long": -71.090456,
-        "ele": 0
-    },
-    "antenna3Coords": {
-        "status": 1,
-        "lat": 42.336946,
-        "long": -71.091264,
-        "ele": 0
-    },
-	"beaconGuessCoords": {
-		"lat": 42.3370915412,
-		"long": -71.0902857564,
-		"ele": 0.0
-	},
-	"guessVector": [
-		{
-			"lat": 42.3369082165,
-			"long": -71.090499491,
-			"ele": 0.0
-		},
-		{
-			"lat": 42.337249386,
-			"long": -71.0898759513,
-			"ele": 0.0
-		},
-		{
-			"lat": 42.33711702,
-			"long": -71.0904818252,
-			"ele": 0.0
-		}
-	]
+    "guessVector": [
+        {
+            "lat": 42.3373392306461,
+            "long": -71.08978988828757,
+            "ele": 0.0
+        },
+        {
+            "lat": 42.336848347178716,
+            "long": -71.09087348522611,
+            "ele": -0.0
+        },
+        {
+            "lat": 42.33795991794233,
+            "long": -71.09532802644226,
+            "ele": 0.0
+        }
+    ]
 }

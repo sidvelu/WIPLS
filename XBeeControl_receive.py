@@ -1,7 +1,6 @@
 from xbee import XBee
 import serial
 from digimesh import DigiMesh
-from datetime import datetime
 import sys
 
 if "linux" in sys.platform:
@@ -22,22 +21,20 @@ if (ser.isOpen()):
 #xbee = XBee(ser, escaped=True)
 digi = DigiMesh(ser, escaped=True)
 
-#trackerData = open('./Map/templates/data.json' , 'r')
-
-
 # Continuously read and print packets
 while True:
     try:
         print "waiting"
         response = digi.wait_read_frame()
         if (response['data'] != ""):
-            time = datetime.now()
-            outputString = response['data'] + " " + str(time) 
-            trackerData.write(outputString)
+            rawData = open('Map/fakeinput.txt', 'w') # clear it
+            rawData.write(response['data'])
+            rawData.close()
+            execfile('Map/JSONWriteTest.py')  # will block till done
 	    print response['data']
     except KeyboardInterrupt:
+        rawData.close()
         break
-        trackerData.close()
 
-trackerData.close()
+rawData.close()
 ser.close()
