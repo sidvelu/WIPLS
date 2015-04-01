@@ -16,15 +16,12 @@ Zmin = 0
 
 while True:
     sum = 0
-    sumOffset = 0
-    for x in range(0,10):
+    for x in range(0,100):
         sum += compass.getHeading(False)
-        sumOffset += compass.getHeading(True)
-        #time.sleep(.01)
-    avg = sum / 10
-    avgOffset = sumOffset / 10
+        time.sleep(.01)
+    avg = sum / 100
     #print "Heading :" + str(compass.getHeading())
-    #print "Average heading:", avg
+    print "Average heading:", avg
     #print "Average offset heading:", avgOffset
 
     sum = 0
