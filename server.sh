@@ -15,4 +15,5 @@ sudo pkill -1 -f server.py
 sudo pkill -1 -f XBeeControl_receive.py
     #ps -ef | grep "server.py" | awk '{print $2}' | xargs kill
     #ps -ef | grep "XBee" | awk '{print $2}' | xargs kill
+echo Scripts Eneded
 exit 1
