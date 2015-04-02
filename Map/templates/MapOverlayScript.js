@@ -274,6 +274,14 @@ function updateMap(data, center) {
     
     printmessage(data.lastupdate + ": Map Updated");
     prevupdate = data.lastupdate;
+
+    // print error messages
+    if (data.error != "") {
+        errors = data.error.split("!");
+        for (var i = 0; i < errors.length; i++) {
+            printmessage(errors[i]);
+        }
+    }
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
