@@ -31,6 +31,7 @@ def align(panTilt):
 
 RATE = 6.8  # rate constant, in degrees per second
 degrees = 180
+datapoints = 10
 
 panTilt.stop()
 #align(panTilt)
@@ -41,21 +42,13 @@ folderName = "run"
 #datapoints = raw_input("Enter number of datapoints: ")
 os.system("rm -rf Data_" + folderName)
 os.system("mkdir Data_" + folderName)
-'''
-try:
-    datapoints = int(sys.argv[0])
-except ValueError:
-    xbee.send('Invalid number for datapoints.')
-    exit()
-'''
-datapoints = 10
+
 # get GPS coords
 coords = GPS.getCoordinates()
 if coords != 0:
     xbee.send("coords: " + str(coords))
 else:
-    xbee.send("GPS coords not found")
-#    exit()
+    xbee.send("ERROR: GPS coords not found, no fix?")
 
 SLEEP_TIME = (degrees / datapoints) / RATE
 print str(SLEEP_TIME)
@@ -64,6 +57,8 @@ print str(SLEEP_TIME)
 for x in range(0,2):
     # get initial heading
     startHeading = compass.getAvgHeading()
+    if (startHeading == 0):
+        xbee.send("ERROR: startHeading is 0, heading not obtained?")
     print "Start heading: " + str(startHeading)
     if (x == 0):
         direction = "r"
@@ -102,7 +97,10 @@ for x in range(0,2):
 
     # send strongest angle via XBee to computer
     ang_file = open('angle.txt', 'r')
-    xbee.send("strong angle: " + str(ang_file.read()))
+    if (not ang_file):
+        xbee.send("ERROR: angle.txt file not found")
+    else:
+        xbee.send("strong angle: " + str(ang_file.read()))
     os.system('rm Data_' + folderName + '/*')
 
 panTilt.stop()
