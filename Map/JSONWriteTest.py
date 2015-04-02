@@ -6,6 +6,7 @@ with open('Map/templates/data.json') as data_file:
 
 input = open('Map/fakeinput.txt')
 
+error = False
 tracker = -1
 for line in input:
     if (line == ""):
@@ -24,19 +25,23 @@ for line in input:
         print "Input parse failed: Invalid tracker"
         continue
 
-    if line[3] == 'c':
+    if "ERROR" in line:
+        #error found
+        data["error"] += (line + "!")
+        error = True
+    elif "coords" in line:
         #Coords
         coords = line.split(":")[1].strip("( )\n")
         lat, long = coords.split(",")
         #print "Tracker " + str(tracker) + " Lat = " + str(lat) + ", Long = " + str(long)
         data["antenna" + str(tracker) + "Coords"]["lat"] = float(lat)
         data["antenna" + str(tracker) + "Coords"]["long"] = float(long)
-    elif line[10] == 'a':
+    elif "angle" in line:
         #Angle
         phi = line.split(":")[1].strip()
         #print "Tracker " + str(tracker) + " Phi = " + str(phi)
         data["antenna" + str(tracker) + "Coords"]["phi"] = float(phi)
-    elif line[10] == 't':
+    elif "tilt" in line:
         #Tilt
         theta = line.split(":")[1].strip()
         #print "Tracker " + str(tracker) + " Theta = " + str(theta)
@@ -86,6 +91,9 @@ for line in input:
     except Exception as e:
         print e.message
         continue
+
+if (not error):
+    data["error"] = ""
 
 with open('Map/templates/data.json', 'w') as data_file2:
     json.dump(data, data_file2, separators=(',', ': '), indent=4)
