@@ -1,5 +1,6 @@
 {
     "lastupdate": "04/01 18:20:47",
+    "showangles": "true",
     "antenna2Coords": {
         "status": 1,
         "phi": 350.0,

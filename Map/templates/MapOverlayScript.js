@@ -1,22 +1,22 @@
-function post(path, params, method) {
-    method = method || "post";
-    
-    var form = document.createElement("form");
-    form.setAttribute("method", method);
-    form.setAttribute("action", path);
-    
-    for (var key in params) {
-        if(params.hasOwnPropery(key)) {
-            var hiddenField = document.createElement("input");
-            hiddenField.setAttribute("type", "hidden");
-            hiddenField.setAttribute("name", key);
-            hiddenField.setAttribute("value", params[key]);
-            form.appendChild(hiddenField);
-        }
-    }
-    document.body.appendChild(form);
-    form.submit();
-}
+//function post(path, params, method) {
+//    method = method || "post";
+//    
+//    var form = document.createElement("form");
+//    form.setAttribute("method", method);
+//    form.setAttribute("action", path);
+//    
+//    for (var key in params) {
+//        if(params.hasOwnPropery(key)) {
+//            var hiddenField = document.createElement("input");
+//            hiddenField.setAttribute("type", "hidden");
+//            hiddenField.setAttribute("name", key);
+//            hiddenField.setAttribute("value", params[key]);
+//            form.appendChild(hiddenField);
+//        }
+//    }
+//    document.body.appendChild(form);
+//    form.submit();
+//}
         
 function printmessage(message) {
     var node = document.createElement("li");
@@ -84,6 +84,27 @@ var antenna3 = new google.maps.Marker({
         position: null,
         title: 'Tracker three position',
         icon: 'http://i.imgur.com/kN8u5cm.png'
+    });
+
+var t1ang = new google.maps.Polyline({
+        path: [],
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.5,
+        strokeWeight: 2
+    });
+
+var t2ang = new google.maps.Polyline({
+        path: [],
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.5,
+        strokeWeight: 2
+    });
+
+var t3ang = new google.maps.Polyline({
+        path: [],
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.5,
+        strokeWeight: 2
     });
         
 var beaconInfo = new google.maps.InfoWindow({
@@ -155,10 +176,18 @@ function showMap(json) {
     if(data.showbeacon == "false") {
         //printmessage("hiding beacon");
         beacon.setMap(null);
-    }
-    else {
+    } else {
         //printmessage("showing beacon");
         beacon.setMap(map);
+    }
+    if(data.showangles == "false") {
+        t1ang.setMap(null);
+        t2ang.setMap(null);
+        t3ang.setMap(null);
+    } else {
+        t1ang.setMap(map);
+        t2ang.setMap(map);
+        t3ang.setMap(map);
     }
     //beacon.setMap(map);
     beaconGuess.setMap(map);
@@ -166,6 +195,7 @@ function showMap(json) {
     antenna1.setMap(map);
     antenna2.setMap(map);
     antenna3.setMap(map);
+    
     
     google.maps.event.addListener(beacon, 'click', function() {
         beaconInfo.open(map, beacon); 
@@ -218,10 +248,35 @@ function updateMap(data, center) {
     if (center) {
         map.setCenter(new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long));
     }
-        beaconPolygon.setPath(
+    beaconPolygon.setPath(
         [new google.maps.LatLng(data.guessVector[0].lat, data.guessVector[0].long),
          new google.maps.LatLng(data.guessVector[1].lat, data.guessVector[1].long),
          new google.maps.LatLng(data.guessVector[2].lat, data.guessVector[2].long)]);
+    
+    var smallConstant = 0.0005
+    
+    function toRadians(angle) {
+        return angle * (Math.PI / 180);
+    }
+    
+    t1ang.setPath(
+        [new google.maps.LatLng(data.antenna1Coords.lat, data.antenna1Coords.long),
+         new google.maps.LatLng(
+             data.antenna1Coords.lat + smallConstant * Math.sin(toRadians(data.antenna1Coords.phi)),
+             data.antenna1Coords.long + smallConstant * Math.cos(toRadians(data.antenna1Coords.phi))
+         )]);
+    t2ang.setPath(
+        [new google.maps.LatLng(data.antenna2Coords.lat, data.antenna2Coords.long),
+         new google.maps.LatLng(
+             data.antenna2Coords.lat + smallConstant * Math.sin(toRadians(data.antenna2Coords.phi)),
+             data.antenna2Coords.long + smallConstant * Math.cos(toRadians(data.antenna2Coords.phi))
+         )]);
+    t3ang.setPath(
+        [new google.maps.LatLng(data.antenna3Coords.lat, data.antenna3Coords.long),
+         new google.maps.LatLng(
+             data.antenna3Coords.lat + smallConstant * Math.sin(toRadians(data.antenna3Coords.phi)),
+             data.antenna3Coords.long + smallConstant * Math.cos(toRadians(data.antenna3Coords.phi))
+         )]);
     
     beaconCoords = new google.maps.LatLng(data.beaconCoords.lat, data.beaconCoords.long);
     var beaconGuessCoords = new google.maps.LatLng(data.beaconGuessCoords.lat, data.beaconGuessCoords.long);
