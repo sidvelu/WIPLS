@@ -24,7 +24,7 @@ A = [angles';overangles'];
 [M,I] = max(overangles)
 maxAngle = angles(I)
 
-fileID = fopen('angle.txt', 'w');
+fileID = fopen('/root/WIPLS/angle.txt', 'w');
 fprintf(fileID, '%f', maxAngle)
 %fprintf(fileID, '%6s %12s \n', 'Angles', 'Magnitude');
 %fprintf(fileID, '%f   %f\n', A);

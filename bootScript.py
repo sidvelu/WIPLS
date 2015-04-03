@@ -28,12 +28,13 @@ while True:
             #sys.exit(0)
             os.system("shutdown -h now")
         elif response == 'align':
-            os.system("python testMove.py l 90")
+            #os.system("python testMove.py l 90")
+            subprocess.Popen("python /root/WIPLS/testMove.py l 90", shell=True)
         elif response == 'control':
             #params = response.split(',')
             #First param datapoints, second degrees
             #sys.argv = [params[1]]
-            subprocess.Popen("python /root/WIPLS/controlScript_timing_Xbee.py", shell=True)
+            p =subprocess.Popen("python /root/WIPLS/controlScript.py", shell=True)
             print "returned from subprocess call"
 
     except KeyboardInterrupt:

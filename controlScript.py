@@ -18,7 +18,6 @@ from GPS import GPS
 from PanTilt import PanTilt
 from XBee import XBee
 
-
 #Setting up compass, GPS, panTilt, & XBee
 compass = LSM303()
 GPS = GPS()
@@ -33,6 +32,7 @@ def align(panTilt):
 RATE = 6.8  # rate constant, in degrees per second
 degrees = 180
 datapoints = 10
+debug = True
 
 panTilt.stop()
 #align(panTilt)
@@ -54,8 +54,14 @@ else:
 SLEEP_TIME = (degrees / datapoints) / RATE
 print str(SLEEP_TIME)
 
+if debug:
+    f = open('debug.log', 'w')
+
 # start loop to pan
 for x in range(0,2):
+    if debug:
+        f.write('Starting loop ' + str(x) + '\n')
+    print "starting ", x, " run"
     # get initial heading
     startHeading = compass.getAvgHeading()
     if (startHeading == 0):
@@ -94,14 +100,22 @@ for x in range(0,2):
         counter += 1
         print str(counter)
 
+    if debug:
+        f.write('Finished loop processing data ' + str(x) + '\n')
     os.system("octave processData_new.m Data_" + folderName) # produces angle.txt file
+    
+    if debug:
+        f.write('Finished processing data ' + str(x) + '\n')
 
     # send strongest angle via XBee to computer
-    ang_file = open('angle.txt', 'r')
+    ang_file = open('/root/WIPLS/angle.txt', 'r')
     if (not ang_file):
         xbee.send("ERROR: angle.txt file not found")
     else:
         xbee.send("strong angle: " + str(ang_file.read()))
     os.system('rm Data_' + folderName + '/*')
+
+    if debug:
+        f.write('finished loop starting next ' + str(x) + '\n')
 
 panTilt.stop()
