@@ -27,6 +27,8 @@ while True:
             kill()
             #sys.exit(0)
             os.system("shutdown -h now")
+        elif response == 'align':
+            os.system("python testMove.py l 90")
         elif response == 'control':
             #params = response.split(',')
             #First param datapoints, second degrees
