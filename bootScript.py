@@ -28,7 +28,8 @@ while True:
             #sys.exit(0)
             os.system("shutdown -h now")
         elif response == 'align':
-            os.system("python testMove.py l 90")
+            #os.system("python testMove.py l 90")
+            subprocess.Popen("python /root/WIPLS/testMove.py l 90", shell=True)
         elif response == 'control':
             #params = response.split(',')
             #First param datapoints, second degrees
