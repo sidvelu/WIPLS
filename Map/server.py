@@ -4,8 +4,8 @@ from multiprocessing import Process
 app = Flask(__name__)
 
 #Surpress Messages
-log = logging.getLogger('werkzeug')
-log.setLevel(logging.ERROR)
+#log = logging.getLogger('werkzeug')
+#log.setLevel(logging.ERROR)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -26,7 +26,7 @@ def index():
 
     if request.method == 'POST' and request.form['submit'] == 'Align':
         print "Moving Left"
-        os.system("python XBeeControl_send.py align")
+        #os.system("python XBeeControl_send.py align")
         return render_template('/MapOverlay.html')
 
     elif request.method == 'GET':
