@@ -34,7 +34,7 @@ while True:
             #params = response.split(',')
             #First param datapoints, second degrees
             #sys.argv = [params[1]]
-            subprocess.Popen("python /root/WIPLS/controlScript_timing_Xbee.py", shell=True)
+            p =subprocess.Popen("python /root/WIPLS/controlScript.py", shell=True)
             print "returned from subprocess call"
 
     except KeyboardInterrupt:
