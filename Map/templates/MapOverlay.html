@@ -36,7 +36,7 @@
     <br />
 
 <div class ="container 2">
-    <form action = "" method="post" value = "cscript" name = "scripts" onclick="return true;">
+    <form action = "" method="post" value = "cscript" name = "scripts">
         <input type = "submit" class="btn btn-success" value="Start" name="submit"/>
         <input type = "submit" class="btn btn-danger" value="Stop" name="submit"/>
         <input type = "submit" class="btn btn-info" value="Align" name="submit"/>
@@ -47,8 +47,8 @@
 <br>
 
 <div class="container">
+    <form action = "" method="post" value = "valign" name = "valign">
     <table class ="table" border = "2" style="width:100%%">
-
         <tr class>
             <td></td>
             <td><b>Latitude (°)</b></td>
@@ -58,6 +58,8 @@
         <tr>
             <td><b>Tracker 1</b>
             <span id="t1status"></span>
+                <input type = "image" src = "http://i.imgur.com/LYgrBwg.png" value = "up1" name="submit"/>
+                <input type = "image" src = "http://i.imgur.com/RiAJ9e2.png" value = "down1" name="submit"/>
             </td>
             <td id="t1lat"></td>
             <td id="t1lng"></td>
@@ -66,6 +68,8 @@
         <tr>
             <td><b>Tracker 2</b>
             <span id="t2status"></span>
+                <input type = "image" src = "http://i.imgur.com/LYgrBwg.png" value = "up2" name="submit"/>
+                <input type = "image" src = "http://i.imgur.com/RiAJ9e2.png" value = "down2" name="submit"/>
             </td>
             <td id="t2lat"></td>
             <td id="t2lng">Loading...</td>
@@ -74,6 +78,8 @@
         <tr>
             <td><b>Tracker 3</b>
             <span id="t3status"></span>
+                <input type = "image" src = "http://i.imgur.com/LYgrBwg.png" value = "up1" name="submit"/>
+                <input type = "image" src = "http://i.imgur.com/RiAJ9e2.png" value = "down1" name="submit"/>
             </td>
             <td id="t3lat"></td>
             <td id="t3lng"></td>
@@ -86,8 +92,8 @@
             <td id="bele"></td>
         </tr>
     </table>
-
-    <div id="errorbox" border = "2" style = "width:100%;height:36px;overflow:auto">
+</form>
+    <div id="errorbox" border = "2" style = "width:100%;height:36px;overflow:auto                             ">
     </div>
 
   </body>
