@@ -11,7 +11,7 @@ xbee = XBee()
 
 
 def kill():
-    os.system('pkill -f controlScript_timing_Xbee.py')
+    os.system('pkill -f controlScript.py')
     panTilt = PanTilt()
     panTilt.stop()
 
