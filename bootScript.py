@@ -5,10 +5,14 @@ import sys
 from XBee import XBee
 import subprocess
 from PanTilt import PanTilt
+import Adafruit_BBIO.GPIO as GPIO
 
 #Create XBee Class
 xbee = XBee()
 
+# turn on blue LED
+GPIO.setup("P8_11", GPIO.OUT)
+GPIO.output("P8_11", GPIO.HIGH)
 
 def kill():
     os.system('pkill -f controlScript.py')
