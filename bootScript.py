@@ -12,6 +12,7 @@ xbee = XBee()
 
 def kill():
     os.system('pkill -f controlScript.py')
+    os.system('pkill -f testMove.py')
     panTilt = PanTilt()
     panTilt.stop()
 
