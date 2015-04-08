@@ -21,27 +21,12 @@ print "degrees: ", str(sys.argv[2])
 direction = str(sys.argv[1])
 degrees = int(sys.argv[2])
 
-def getHeading():
-    sum = 0
-    for x in range(0,10):
-        sum += compass.getHeading(False)
-    avgHeading = sum / 10
-    return avgHeading
 
-#Setting up compass, GPS, and panTilt
-#compass = LSM303()
-#GPS = GPS()
 panTilt = PanTilt()
 
-# CONSTANTS TO BE SETUP
-#RATE = 6.9231 # degrees per second 
 RATE = 6.8 
-#DATAPOINTS = 10.0
-#DEGREES = 180.0
 
-#align()
 panTilt.stop()
-
 
 SLEEP_TIME = (degrees) / RATE
 print "Time to sleep" , SLEEP_TIME

@@ -41,8 +41,8 @@ folderName = "run"
 #direction = raw_input("Enter direction (l or r): ")
 #degrees = raw_input("Enter degrees to pan: ")
 #datapoints = raw_input("Enter number of datapoints: ")
-os.system("rm -rf Data_" + folderName)
-os.system("mkdir Data_" + folderName)
+os.system("rm -rf /root/Data_" + folderName)
+os.system("mkdir /root/Data_" + folderName)
 
 # get GPS coords
 coords = GPS.getCoordinates()
@@ -55,7 +55,7 @@ SLEEP_TIME = (degrees / datapoints) / RATE
 print str(SLEEP_TIME)
 
 if debug:
-    f = open('debug.log', 'w')
+    f = open('control_debug.log', 'w')
 
 # start loop to pan
 for x in range(0,2):
@@ -94,7 +94,7 @@ for x in range(0,2):
             currHeading %= 360
         print "currHeading: ", currHeading
         #rename signal files
-        os.system("mv passband_sig.bin Data_" + folderName + "/passband_signal_"+ str(round(currHeading)) + ".bin")
+        os.system("mv passband_sig.bin /root/Data_" + folderName + "/passband_signal_"+ str(round(currHeading)) + ".bin")
         print("Finished one heading")
 
         counter += 1
@@ -102,18 +102,22 @@ for x in range(0,2):
 
     if debug:
         f.write('Finished loop processing data ' + str(x) + '\n')
-    os.system("octave processData_new.m Data_" + folderName) # produces angle.txt file
+
+    os.system("octave /root/WIPLS/processData_new.m /root/Data_" + folderName) # produces angle.txt file
     
     if debug:
         f.write('Finished processing data ' + str(x) + '\n')
 
     # send strongest angle via XBee to computer
-    ang_file = open('/root/WIPLS/angle.txt', 'r')
-    if (not ang_file):
-        xbee.send("ERROR: angle.txt file not found")
-    else:
+    try:
+        ang_file = open('/root/angle.txt', 'r')
         xbee.send("strong angle: " + str(ang_file.read()))
-    os.system('rm Data_' + folderName + '/*')
+        f.write('angle successfully sent\n')
+    except:
+        xbee.send("ERROR: angle.txt file not found")
+        f.write('angle.txt file not found\n')
+
+    os.system('rm /root/Data_' + folderName + '/*')
 
     if debug:
         f.write('finished loop starting next ' + str(x) + '\n')

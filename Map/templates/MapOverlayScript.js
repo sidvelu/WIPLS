@@ -17,13 +17,21 @@
 //    document.body.appendChild(form);
 //    form.submit();
 //}
-        
+
+var prevMessage = null;
+
 function printmessage(message) {
     var node = document.createElement("li");
     var textnode = document.createTextNode(message);
     node.appendChild(textnode);
     
-    document.getElementById("errorbox").appendChild(node);
+    if (prevMessage == null) {
+        document.getElementById("errorbox").appendChild(node);
+    } else {
+        document.getElementById("errorbox").insertBefore(node,
+                                                prevMessage);
+    }
+    prevMessage = node;
 }
 
 function arrow(up) {
@@ -331,12 +339,12 @@ function updateMap(data, center) {
     prevupdate = data.lastupdate;
 
     // print error messages
-    /*if (data.error != "") {
+    if (data.error != "") {
         errors = data.error.split("!");
         for (var i = 0; i < errors.length; i++) {
             printmessage(errors[i]);
         }
-    }*/
+    }
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
