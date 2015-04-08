@@ -9,7 +9,7 @@ from PanTilt import PanTilt
 
 if len(sys.argv) != 3:
     print "Error invalid paramaters"
-    print "Enter as: testMove (l,r) (degrees)"
+    print "Enter as: testMove (l,r,u,d) (degrees)"
     sys.exit()
 
 print "argv: ", str(sys.argv)
@@ -35,6 +35,10 @@ if (direction == "r"):
     panTilt.right()
 elif (direction == "l"):
     panTilt.left()
+elif (direction == "u"):
+    panTilt.up()
+elif (direction == "d"):
+    panTilt.down()
         
 time.sleep(SLEEP_TIME)
 panTilt.stop()
