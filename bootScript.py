@@ -14,6 +14,11 @@ xbee = XBee()
 GPIO.setup("P8_11", GPIO.OUT)
 GPIO.output("P8_11", GPIO.HIGH)
 
+# get XBee ID
+ID_file = open('/root/WIPLS/XBEE_ID', 'r')
+XBeeNum = str(ID_file.read()).strip()
+ID_file.close()
+
 def kill():
     os.system('pkill -f controlScript.py')
     os.system('pkill -f testMove.py')
@@ -41,6 +46,11 @@ while True:
             #sys.argv = [params[1]]
             p =subprocess.Popen("python /root/WIPLS/controlScript.py", shell=True)
             print "returned from subprocess call"
+        elif XBeeNum in response:
+            if 'up' in response:
+                subprocess.Popen("python /root/WIPLS/testMove.py u 10", shell=True)
+            elif 'down' in response:
+                subprocess.Popen("python /root/WIPLS/testMove.py d 10", shell=True)
 
     except KeyboardInterrupt:
         break
