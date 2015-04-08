@@ -26,7 +26,19 @@ def index():
 
     if request.method == 'POST' and request.form['submit'] == 'Align':
         print "Moving Left"
-        #os.system("python XBeeControl_send.py align")
+        os.system("python XBeeControl_send.py align")
+        return render_template('/MapOverlay.html')
+
+    if request.method == 'POST' and 'up' in request.form['submit']:
+        print "Moving tracker up"
+        tracker = request.form['submit'].split()[1]
+        os.system("python XBeeControl_send.py up" + tracker)
+        return render_template('/MapOverlay.html')
+
+    if request.method == 'POST' and 'down' in request.form['submit']:
+        print "Moving tracker down"
+        tracker = request.form['submit'].split()[1]
+        os.system("python XBeeControl_send.py down" + tracker)
         return render_template('/MapOverlay.html')
 
     elif request.method == 'GET':
