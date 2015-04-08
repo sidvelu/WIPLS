@@ -9,28 +9,46 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST' and request.form['submit'] == 'Start':
-        print "Control Script Launched"
-        os.system("python XBeeControl_send.py control")
-        return render_template('/MapOverlay.html')
+    if request.method == 'POST':
+        requestString = request.form['submit']
 
-    if request.method == 'POST' and request.form['submit'] == 'Stop':
-        print "Stopping Control"
-        os.system("python XBeeControl_send.py stop")
-        return render_template('/MapOverlay.html')
+        if requestString == 'Start':
+            print "Control Script Launched"
+            os.system("python XBeeControl_send.py control")
+            return render_template('/MapOverlay.html')
 
-    if request.method == 'POST' and request.form['submit'] == 'Kill':
-        print "Killing Control"
-        os.system("python XBeeControl_send.py kill")
-        return render_template('/MapOverlay.html')
+        if requestString == 'Stop':
+            print "Stopping Control"
+            os.system("python XBeeControl_send.py stop")
+            return render_template('/MapOverlay.html')
 
-    if request.method == 'POST' and request.form['submit'] == 'Align':
-        print "Moving Left"
-        os.system("python XBeeControl_send.py align")
-        return render_template('/MapOverlay.html')
+        if requestString == 'Kill':
+            print "Killing Control"
+            os.system("python XBeeControl_send.py kill")
+            return render_template('/MapOverlay.html')
+
+        if requestString == 'Align':
+            print "Moving Left"
+            os.system("python XBeeControl_send.py align")
+            return render_template('/MapOverlay.html')
+
+        if 'up' in requestString or 'down' in requestString:
+            params = requestString.split()
+            print "Moving tracker " + params[0]
+            os.system("python XBeeControl_send.py " + params[0] +  params[1])
+            return render_template('/MapOverlay.html')
+        '''
+
+        if 'down' in requestString:
+            print "Moving tracker down"
+            tracker = requestString.split()[1]
+            #os.system("python XBeeControl_send.py down" + tracker)
+            return render_template('/MapOverlay.html')
+        '''
 
     elif request.method == 'GET':
         return render_template('/MapOverlay.html')
+        
 
 def _test(argument):
     return "TEST: %s" % argument
