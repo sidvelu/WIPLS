@@ -18,6 +18,17 @@
 //    form.submit();
 //}
 
+var arrow_up = "../assets/arrow_up.png";
+var arrow_down = "../assets/arrow_down.png";
+var beacon = "../assets/beacon.png";
+var number_1 = "../assets/number_1.png";
+var number_2 = "../assets/number_2.png";
+var number_3 = "../assets/number_3.png";
+var star = "../assets/star.png";
+var status_green = "../assets/status_green.png";
+var status_red = "../assets/status_red.png";
+var tracker = "../assets/tracker.png";
+
 var prevMessage = null;
 
 function printmessage(message) {
@@ -34,11 +45,11 @@ function printmessage(message) {
     prevMessage = node;
 }
 
-function arrow(up) {
+function status(up) {
     if (up) {
-        return "<img src=\"http://i.imgur.com/KC9vWSc.png\">"
+        return "<img src=" + status_green + ">"
     } else {
-        return "<img src=\"http://i.imgur.com/qazLBjq.png\">"
+        return "<img src=" + status_red + ">"
     }
 }
         
@@ -58,13 +69,13 @@ var prevupdate = null;
 var beacon = new google.maps.Marker({
         position: null,
         title: 'True beacon position',
-        icon: 'http://i.imgur.com/AOm4N8n.png'
+        icon: beacon
     });
         
 var beaconGuess = new google.maps.Marker({
         position: null,
-        title: 'Guessed beacon position',
-        icon: 'http://i.imgur.com/9wox1aO.png'
+        title: 'Predicted beacon position',
+        icon: star
     });
         
 var beaconPolygon = new google.maps.Polygon({
@@ -79,19 +90,19 @@ var beaconPolygon = new google.maps.Polygon({
 var antenna1 = new google.maps.Marker({
         position: null,
         title: 'Tracker one position',
-        icon: 'http://i.imgur.com/gBkkVYK.png'
+        icon: number_1
     });
         
 var antenna2 = new google.maps.Marker({
         position: null,
         title: 'Tracker two position',
-        icon: 'http://i.imgur.com/VQhkh1o.png'
+        icon: number_2
     });
         
 var antenna3 = new google.maps.Marker({
         position: null,
         title: 'Tracker three position',
-        icon: 'http://i.imgur.com/A3XUbX7.png'
+        icon: number_3
     });
 
 var t1ang = new google.maps.Polyline({
@@ -322,9 +333,9 @@ function updateMap(data, center) {
     document.getElementById("blng").innerHTML = beaconGuessCoords.lng().toFixed(6);
     document.getElementById("bele").innerHTML = data.beaconGuessCoords.ele.toFixed(6);
     
-    document.getElementById("t1status").innerHTML = data.antenna1Coords.status == 1 ? arrow(true) : arrow(false);
-    document.getElementById("t2status").innerHTML = data.antenna2Coords.status == 1 ? arrow(true) : arrow(false);
-    document.getElementById("t3status").innerHTML = data.antenna3Coords.status == 1 ? arrow(true) : arrow(false);
+    document.getElementById("t1status").innerHTML = data.antenna1Coords.status == 1 ? status(true) : status(false);
+    document.getElementById("t2status").innerHTML = data.antenna2Coords.status == 1 ? status(true) : status(false);
+    document.getElementById("t3status").innerHTML = data.antenna3Coords.status == 1 ? status(true) : status(false);
     
     if(data.showbeacon == "false") {
         //printmessage("hiding beacon");
