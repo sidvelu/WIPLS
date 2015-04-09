@@ -32,8 +32,13 @@ for line in input:
     elif "coords" in line:
         #Coords
         coords = line.split(":")[1].strip("( )\n")
-        lat, long = coords.split(",")
-        #print "Tracker " + str(tracker) + " Lat = " + str(lat) + ", Long = " + str(long)
+        print coords
+        lat, lat_dir, long, long_dir = coords.split(",")
+        if (lat_dir == 'S'):
+            lat *= -1
+        if (long_dir == 'W'):
+            long *= -1
+        print "Tracker " + str(tracker) + " Lat = " + str(lat) + ", Long = " + str(long)
         data["antenna" + str(tracker) + "Coords"]["lat"] = float(lat)
         data["antenna" + str(tracker) + "Coords"]["long"] = float(long)
     elif "angle" in line:
