@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 import os, logging
 from multiprocessing import Process
-app = Flask(__name__)
+app = Flask(__name__, static_folder='assets')
 
 #Surpress Messages
 #log = logging.getLogger('werkzeug')
@@ -45,7 +45,7 @@ def index():
             #os.system("python XBeeControl_send.py down" + tracker)
             return render_template('/MapOverlay.html')
         '''
-
+    
     elif request.method == 'GET':
         return render_template('/MapOverlay.html')
         
@@ -60,6 +60,11 @@ def json():
 @app.route('/MapOverlayScript.js')
 def javaScript():
     return render_template('/MapOverlayScript.js')
+
+@app.route('/assets/<filename>')
+def get_image(filename):
+    print filename
+    return send_from_directory(app.static_folder, filename)
 
 if __name__ == '__main__':
     app.run(
