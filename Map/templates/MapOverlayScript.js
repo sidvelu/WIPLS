@@ -79,19 +79,19 @@ var beaconPolygon = new google.maps.Polygon({
 var antenna1 = new google.maps.Marker({
         position: null,
         title: 'Tracker one position',
-        icon: 'http://i.imgur.com/kN8u5cm.png'
+        icon: 'http://i.imgur.com/gBkkVYK.png'
     });
         
 var antenna2 = new google.maps.Marker({
         position: null,
         title: 'Tracker two position',
-        icon: 'http://i.imgur.com/kN8u5cm.png'
+        icon: 'http://i.imgur.com/VQhkh1o.png'
     });
         
 var antenna3 = new google.maps.Marker({
         position: null,
         title: 'Tracker three position',
-        icon: 'http://i.imgur.com/kN8u5cm.png'
+        icon: 'http://i.imgur.com/A3XUbX7.png'
     });
 
 var t1ang = new google.maps.Polyline({
