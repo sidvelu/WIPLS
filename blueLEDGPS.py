@@ -23,6 +23,7 @@ while(True):
             prevLED = 0
     else:
         GPIO.output(blueLED, GPIO.HIGH)
+        time.sleep(4)
     #time.sleep(1)
             
             
