@@ -10,9 +10,11 @@ import Adafruit_BBIO.GPIO as GPIO
 #Create XBee Class
 xbee = XBee()
 
+
 # turn on blue LED
-GPIO.setup("P8_11", GPIO.OUT)
-GPIO.output("P8_11", GPIO.HIGH)
+blueLED = "P8_11"
+GPIO.setup(blueLED, GPIO.OUT)
+GPIO.output(blueLED, GPIO.HIGH)
 
 # get XBee ID
 ID_file = open('/root/WIPLS/XBEE_ID', 'r')
@@ -25,11 +27,15 @@ def kill():
     panTilt = PanTilt()
     panTilt.stop()
 
+subprocess.Popen("python /root/WIPLS/blueLEDGPS.py", shell=True)
+
 # Continuously read and print packets
 while True:
     try:
         print "waiting"
         response = xbee.read()
+
+
         print "read"
         if response == 'stop':
             kill()
