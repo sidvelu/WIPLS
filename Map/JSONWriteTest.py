@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import datetime
 
 with open('Map/templates/data.json') as data_file:
@@ -34,9 +35,11 @@ for line in input:
         coords = line.split(":")[1].strip("( )\n")
         print coords
         lat, lat_dir, long, long_dir = coords.split(",")
-        if (lat_dir == 'S'):
+        lat = float(lat)
+        long = float(long)
+        if ('S' in lat_dir):
             lat *= -1
-        if (long_dir == 'W'):
+        if ('W' in long_dir):
             long *= -1
         print "Tracker " + str(tracker) + " Lat = " + str(lat) + ", Long = " + str(long)
         data["antenna" + str(tracker) + "Coords"]["lat"] = float(lat)
@@ -102,3 +105,5 @@ if (not error):
 
 with open('Map/templates/data.json', 'w') as data_file2:
     json.dump(data, data_file2, separators=(',', ': '), indent=4)
+date = str(datetime.now().strftime("%m_%d_%H_%M_%S"))
+os.system("cp Map/templates/data.json Map/templates/data_" + date)
