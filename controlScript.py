@@ -29,7 +29,12 @@ def align(panTilt):
     time.sleep(52)  # time takes from one barrier to another
     panTilt.stop()
 
-RATE = 6.8  # rate constant, in degrees per second
+rate_file = open('/root/WIPLS/PT_RATE', 'r')
+RATE = str(rate_file.read()).strip()
+RATE = float(RATE)
+rate_file.close()
+
+#RATE = 6.8  # rate constant, in degrees per second
 degrees = 180
 datapoints = 10
 debug = True

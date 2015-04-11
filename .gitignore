@@ -10,3 +10,4 @@ sh.exe.stackdump
 .idea/workspace.xml
 *.DS_Store
 XBEE_ID
+PT_RATE
