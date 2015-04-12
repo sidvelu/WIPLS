@@ -29,12 +29,13 @@ while True:
         print "waiting"
         response = digi.wait_read_frame()
         response = response['data'].split()
+        print response
         if "mag" in response[1]:
             if "1" in response[0]:
                 t1 = float(response[2])
             elif "2" in response[0]:
                 t2 = float(response[2])
-            elif "1" in response[0]:
+            elif "3" in response[0]:
                 t3 = float(response[2])
         print "t1:" + str(t1) + " t2:" + str(t2) +" t3:" + str(t3)
 
