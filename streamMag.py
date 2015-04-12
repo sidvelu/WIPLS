@@ -8,13 +8,11 @@ compass = LSM303()
 panTilt = PanTilt()
 xbee = XBee()
 
-#Getting XBEE Number
-ID_file = open('/root/WIPLS/XBEE_ID', 'r')
-XBeeNum = str(ID_file.read()).strip()
 
 while(True):
     heading = compass.getAvgHeading()
-    message = XBeeNum + " " + str(heading)
+    message = "mag: " + str(heading)
+    print message
     xbee.send(message)
     time.sleep(5)
     

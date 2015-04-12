@@ -39,9 +39,11 @@ while True:
 
         print "read"
         if response == 'stop':
+            print "Killing Scripts"
             kill()
-        elif response == 'mag'
-            subprocess.Popen("python /root/WIPLS/streamMag.py")
+        elif response == 'mag':
+            print "Streaming mag Values"
+            subprocess.Popen("python /root/WIPLS/streamMag.py", shell=True)
         elif response == 'kill':
             kill()
             #sys.exit(0)
