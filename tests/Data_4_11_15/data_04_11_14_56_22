@@ -1,0 +1,57 @@
+{
+    "lastupdate": "04/11 14:56:21",
+    "antenna2Coords": {
+        "status": 1,
+        "phi": 204.0,
+        "long": -71.08951666666667,
+        "ele": 0,
+        "lat": 42.33777666666667,
+        "theta": 0.0
+    },
+    "antenna1Coords": {
+        "status": 1,
+        "phi": 337.0,
+        "long": -71.08997,
+        "ele": 0,
+        "lat": 42.336965,
+        "theta": 0.0
+    },
+    "beaconGuessCoords": {
+        "lat": 42.337445983326965,
+        "long": -71.09063951055299,
+        "ele": 0.0
+    },
+    "antenna3Coords": {
+        "status": 1,
+        "phi": 196.0,
+        "long": -71.09094166666667,
+        "ele": 0,
+        "lat": 42.337428333333335,
+        "theta": 0.0
+    },
+    "showbeacon": "false",
+    "showangles": "true",
+    "beaconCoords": {
+        "lat": 42.337512,
+        "long": -71.090124,
+        "ele": 0
+    },
+    "error": "",
+    "guessVector": [
+        {
+            "lat": 42.33726126788238,
+            "long": -71.09097978549362,
+            "ele": 0.0
+        },
+        {
+            "lat": 42.33734961325365,
+            "long": -71.0912806749014,
+            "ele": 0.0
+        },
+        {
+            "lat": 42.33772706247229,
+            "long": -71.08965806469315,
+            "ele": 0.0
+        }
+    ]
+}
