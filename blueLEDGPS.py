@@ -14,7 +14,7 @@ prevLED = 0
 while(True):
     try:
         GPSFix = GPS.getCoordinates()
-    except:
+    except KeyboardInterrupt:
         print "error"
         GPSFix = 0
     #print GPSFix
