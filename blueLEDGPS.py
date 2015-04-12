@@ -12,7 +12,11 @@ GPIO.output(blueLED, GPIO.LOW)
 prevLED = 0
 
 while(True):
-    GPSFix = GPS.getCoordinates()
+    try:
+        GPSFix = GPS.getCoordinates()
+    except:
+        print "error"
+        GPSFix = 0
     #print GPSFix
     if GPSFix == 0:
         if prevLED == 0:

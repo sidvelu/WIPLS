@@ -34,9 +34,12 @@ RATE = str(rate_file.read()).strip()
 RATE = float(RATE)
 rate_file.close()
 
+print "datapoints: ",sys.argv[1]
+
 #RATE = 6.8  # rate constant, in degrees per second
 degrees = 180
-datapoints = 10
+#datapoints = 10
+datapoints = int(sys.argv[1])
 debug = True
 
 panTilt.stop()
