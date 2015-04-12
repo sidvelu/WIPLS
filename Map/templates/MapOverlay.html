@@ -37,10 +37,25 @@
 
 <div class ="container 2">
     <form action = "" method="post" value = "cscript" name = "scripts">
-        <input type = "submit" class="btn btn-success" value="Start" name="submit"/>
-        <input type = "submit" class="btn btn-danger" value="Stop" name="submit"/>
-        <input type = "submit" class="btn btn-info" value="Align" name="submit"/>
-        <input type = "submit" class="btn btn-warning" value="Kill" name="submit"/>
+        <div class="input-group col-md-4">
+            <span class="input-group-addon">Datapoints:</span>
+            <select class="form-control">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+                <option value="25">25</option>
+                <option value="30">30</option>
+                <option value="36">36</option>
+            </select>
+            <span class="input-group-btn">
+                <input type = "submit" class="btn btn-success" value="Start" name="submit"/>
+                <input type = "submit" class="btn btn-danger" value="Stop" name="submit"/>
+                <input type = "submit" class="btn btn-info" value="Align" name="submit"/>
+                <input type = "submit" class="btn btn-warning" value="Kill" name="submit"/>
+            </span>
+        </div>
+
     </form>
     
 </div>
