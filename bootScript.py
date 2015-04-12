@@ -24,6 +24,7 @@ ID_file.close()
 def kill():
     os.system('pkill -f controlScript.py')
     os.system('pkill -f testMove.py')
+    os.system('pkill -f streamMag.py')
     panTilt = PanTilt()
     panTilt.stop()
 
@@ -39,6 +40,8 @@ while True:
         print "read"
         if response == 'stop':
             kill()
+        elif response == 'mag'
+            subprocess.Popen("python /root/WIPLS/streamMag.py")
         elif response == 'kill':
             kill()
             #sys.exit(0)
@@ -57,6 +60,10 @@ while True:
                 subprocess.Popen("python /root/WIPLS/testMove.py u 10", shell=True)
             elif 'down' in response:
                 subprocess.Popen("python /root/WIPLS/testMove.py d 10", shell=True)
+            elif 'left' in response:
+                subprocess.Popen("python /root/WIPLS/testMove.py l 10", shell=True)
+            elif 'right' in response:
+                subprocess.Popen("python /root/WIPLS/testMove.py r 10", shell=True)
 
     except KeyboardInterrupt:
         break

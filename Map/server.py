@@ -4,8 +4,8 @@ from multiprocessing import Process
 app = Flask(__name__, static_folder='assets')
 
 #Surpress Messages
-#log = logging.getLogger('werkzeug')
-#log.setLevel(logging.ERROR)
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -32,10 +32,10 @@ def index():
             os.system("python XBeeControl_send.py align")
             return render_template('/MapOverlay.html')
 
-        if 'up' in requestString or 'down' in requestString:
+        if 'up' in requestString or 'down' in requestString or 'left' in requestString or 'right' in requestString:
             params = requestString.split()
             print "Moving tracker " + params[0]
-            os.system("python XBeeControl_send.py " + params[0] +  params[1])
+            os.system("python XBeeControl_send.py " + params[0] + params[1])
             return render_template('/MapOverlay.html')
         '''
 
