@@ -51,11 +51,17 @@ while True:
         elif response == 'align':
             #os.system("python testMove.py l 90")
             subprocess.Popen("python /root/WIPLS/testMove.py l 90", shell=True)
-        elif response == 'control':
+        elif 'control' in response:
+            print response
+            params = response.split(',')
             #params = response.split(',')
             #First param datapoints, second degrees
             #sys.argv = [params[1]]
-            p =subprocess.Popen("python /root/WIPLS/controlScript.py", shell=True)
+
+            output = "python /root/WIPLS/controlScript.py " + params[1]
+            #print output
+            #p =subprocess.Popen("python /root/WIPLS/controlScript.py", shell=True)
+            p =subprocess.Popen(output, shell=True)
             print "returned from subprocess call"
         elif XBeeNum in response:
             if 'up' in response:
