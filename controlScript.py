@@ -82,6 +82,7 @@ for x in range(0,2):
         direction = "l"
         startHeading = 90.0
 
+    startHeading = (90 - startHeading) % 360
     counter = 0
     currHeading = int(startHeading)
     while counter < datapoints:

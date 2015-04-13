@@ -1,0 +1,57 @@
+{
+    "lastupdate": "04/13 17:21:44",
+    "antenna2Coords": {
+        "status": 1,
+        "phi": 295.0,
+        "long": -71.090456,
+        "ele": 0,
+        "lat": 42.337414,
+        "theta": 0.0
+    },
+    "antenna1Coords": {
+        "status": 1,
+        "phi": 10.0,
+        "long": -71.089335,
+        "ele": 0,
+        "lat": 42.337545,
+        "theta": 0.0
+    },
+    "beaconGuessCoords": {
+        "lat": 42.339839567993785,
+        "long": -71.09244055976427,
+        "ele": 0.0
+    },
+    "antenna3Coords": {
+        "status": 1,
+        "phi": 110.0,
+        "long": -71.091264,
+        "ele": 0,
+        "lat": 42.336946,
+        "theta": 0.0
+    },
+    "showbeacon": "false",
+    "guessVector": [
+        {
+            "lat": 42.33738051566815,
+            "long": -71.09043430322997,
+            "ele": 0.0
+        },
+        {
+            "lat": 42.33723345143049,
+            "long": -71.09141661987773,
+            "ele": 0.0
+        },
+        {
+            "lat": 42.344904663499825,
+            "long": -71.09547112987656,
+            "ele": 0.0
+        }
+    ],
+    "beaconCoords": {
+        "lat": 42.337512,
+        "long": -71.090124,
+        "ele": 0
+    },
+    "error": "3, ERROR: GPS coords not found, no fix?!1, ERROR: GPS coords not found, no fix?!3, ERROR: GPS coords not found, no fix?!",
+    "showangles": "true"
+}
