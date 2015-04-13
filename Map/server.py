@@ -13,8 +13,10 @@ def index():
         requestString = request.form['submit']
 
         if requestString == 'Start':
+            datapoints = request.form['datapoints']
+            print "datapoints: ", datapoints
             print "Control Script Launched"
-            os.system("python XBeeControl_send.py control")
+            os.system("python XBeeControl_send.py control," + str(datapoints) )
             return render_template('/MapOverlay.html')
 
         if requestString == 'Stop':
