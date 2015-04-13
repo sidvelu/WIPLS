@@ -77,8 +77,10 @@ for x in range(0,2):
     print "Start heading: " + str(startHeading)
     if (x == 0):
         direction = "r"
+        startHeading = 270.0
     elif (x == 1):
         direction = "l"
+        startHeading = 90.0
 
     counter = 0
     currHeading = int(startHeading)
